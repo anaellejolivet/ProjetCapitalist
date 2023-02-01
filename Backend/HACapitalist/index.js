@@ -1,4 +1,5 @@
 const express = require('express');
+
 const { ApolloServer, gql } = require('apollo-server-express');
 // Construct a schema, using GraphQL schema language
 
@@ -18,6 +19,7 @@ const resolvers = {
 const server = new ApolloServer({ typeDefs, resolvers})
 
 const app = express();
+app.use(express.static('public'));
 server.start().then( res => {
     server.applyMiddleware({app});
 
