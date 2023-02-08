@@ -1,5 +1,5 @@
 module.exports = {
-    "name": "Nom du monde",
+    "name": "Egypte antique",
     "logo": "icones/logomonde.jpg",
     "money": 0,
     "score": 0,
@@ -10,7 +10,7 @@ module.exports = {
     "products": [
         {
             "id": 1,
-            "name": "premier produit",
+            "name": "Papyrus",
             "logo": "icones/premierproduit.jpg", "cout": 4,
             "croissance": 1.07,
             "revenu": 1,
@@ -68,7 +68,7 @@ module.exports = {
     ],
     "angelupgrades": [
         {
-            "name": "Angel Sacrifice",
+            "name": "Sphynx",
             "logo": "icones/angel.png",
             "seuil": 10,
             "idcible": 0,

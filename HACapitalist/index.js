@@ -10,10 +10,21 @@ const typeDefs = require("./schema")
 // Provide resolver functions for your schema fields
 const resolvers = require("./resolvers")
 
+async function readUserWorld(user) {
+    try {
+const data = await fs.readFile("userworlds/"+ user + "- world.json");
+        return JSON.parse(data);
+}
+    catch(error) {
+        return world
+    }
+}
+
 const server = new ApolloServer({ 
     typeDefs, resolvers,
     context: async ({ req }) => ({
-        world: world
+        world: await readUserWorld(req.headers["x-user"]),
+        user: req.headers["x-user"]
     })
 });
 
