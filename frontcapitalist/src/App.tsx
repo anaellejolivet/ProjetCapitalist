@@ -1,7 +1,7 @@
-import React from 'react';
-import logo from './logo.svg';
+import {ChangeEvent, useState} from 'react';
 import './App.css';
-import { gql } from '@apollo/client';
+import { gql, useApolloClient, useQuery } from '@apollo/client';
+import Main from './Main';
 
 const GET_WORLD = gql`
     query getWorld {
@@ -76,27 +76,41 @@ const GET_WORLD = gql`
   `;
 
 function App() {
+
+  const [username, setUsername] = useState("")
+
+  const {loading, error, data, refetch } = useQuery(GET_WORLD, {
+    context: { headers: { "x-user": username } }
+  });
+
+  const client = useApolloClient();
+
+  let corps = undefined
+  if (loading) corps = <div> Loading... </div>
+  else if (error) corps = <div> Erreur de chargement du monde ! </div>
+  else corps = <Main loadworld={data.getWorld} username={username} />
+
+  function onUserNameChanged(event:ChangeEvent<HTMLInputElement>){
+    setUsername(event.target.value);
+    client.resetStore()
+
+    if (event.target.value) {
+      localStorage.setItem("username", event.target.value);
+    }else{
+      localStorage.setItem("username", ("Capitaine" + Math.floor(Math.random()*10000)) );
+    }
+  }
+
+  console.log("app")
+
   return (
-    
     <div className="App">
-      <div className="header">
-        <div> logo monde </div> 
-        <div> argent </div>
-        <div> multiplicateur </div> 
-        <div> ID du joueur </div>
+      <div className='player'>
+          ID du joueur :
+          <input type="text" value={username} onChange={onUserNameChanged}/>
       </div>
-      <div className="main">
-        <div> liste des boutons de menu </div> 
-      <div className="product">
-        <div> premier produit </div> 
-        <div> second produit </div> 
-        <div> troisième produit </div> 
-        <div> quatrième produit </div> 
-        <div> cinquième produit </div> 
-        <div> sixième produit </div>
-      </div>
+      { corps }
     </div>
-  </div>
   );
 }
 

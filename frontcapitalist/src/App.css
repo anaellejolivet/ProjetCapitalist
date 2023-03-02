@@ -4,11 +4,46 @@ grid-template-columns: 25% 25% 30% 20%;
 }
 
 .main {
-  display: grid;
+  display: flex;
+  flex-direction: column;
 grid-template-columns: 20% 80%; 
 }
 
-.product {
-display: grid;
-grid-template-columns: 1fr 1fr; 
+.jeu {
+  display: flex;
+  flex-direction: row;
+  grid-template-columns: 1fr 1fr; 
+}
+
+.menu_buttons{
+  width: 20%;
+  background-color: aquamarine;
+}
+
+.player{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  background-color: blueviolet;
+}
+
+.dashboard{
+  display: flex;
+  flex-direction: row;
+  background-color: green;
+  justify-content: space-around;
+}
+
+.products{
+  width: 80%;
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  background-color: aqua;
+  flex-wrap: wrap;
+}
+
+.product{
+  border: solid black 2px;
+  margin: 10px;
+  border-radius: 12px;
 }
