@@ -14,16 +14,18 @@ export function transform(valeur: number): string {
 }
 
 export function devis(product: Product, qt: number): number{
-    console.log(qt)
-    console.log("le cout d'un produit dans utils"+qt)
+    // console.log(qt)
+    // console.log("le cout d'un produit dans utils"+qt)
+    let prix = product.cout
+    let somme = product.cout
 
-    let montant = product.cout;
     for (let i = 1; i < qt; i++) {
-        montant = montant*product.croissance
+        prix = prix*product.croissance
+        somme = somme + prix
     }
 
-    console.log("Motherfucking montant ici : " + montant)
-    return montant
+    // console.log("montant ici : " + montant)
+    return somme
 
 }
    
