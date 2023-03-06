@@ -16,8 +16,7 @@ function majScore(context) {
   let world = context.world;
   let produits = world.products;
   for(var i= 0; i < produits.length; i++){
-    let tempsEcoule = Date.now() -  world.lastupdate;
-    console.log(tempsEcoule)
+    let tempsEcoule = Date.now() -  parseInt(world.lastupdate);
     let produit = produits[i];
     if(produit.managerUnlocked){
       tempsEcoule = tempsEcoule - produit.timeleft
@@ -47,12 +46,27 @@ function majScore(context) {
 }
 function appliquerBonus(palier, context){
   let produitid = palier.idcible;
-  let produit = context.world.products.find((p) => p.id === produitid);
-  if(palier.typeratio == "vitesse"){
-    produit.vitesse = produit.vitesse/palier.ratio;
-  }else if(palier.typeratio == "gain"){
-    produit.revenu = produit.revenu*palier.ratio;
+  let produits = []
+  if(produitid!=0){
+    produits = context.world.products.find((p) => p.id === produitid);
+  }else{
+    produits = context.world.products
   }
+  produits.forEach(produit =>{
+    if(palier.typeratio == "vitesse"){
+      produit.vitesse = produit.vitesse/palier.ratio;
+    }else if(palier.typeratio == "gain"){
+      produit.revenu = produit.revenu*palier.ratio;
+    }
+  })
+  
+}
+function allunlocks(){
+  paliers = paliers.filter(palier => !palier.unlocked && produit.quantite>=palier.seuil);
+  paliers.forEach(palier => {
+    palier.unlocked = true;
+    appliquerBonus(palier, context);
+  });
 }
 module.exports = {
   Query: {
@@ -85,6 +99,7 @@ module.exports = {
           palier.unlocked = true;
           appliquerBonus(palier, context);
         });
+        allunlocks();
 
         world.lastupdate = Date.now().toString();
         saveWorld(context)
