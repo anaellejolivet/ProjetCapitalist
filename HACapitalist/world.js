@@ -1,6 +1,6 @@
 module.exports = {
     "name": "Egypte antique",
-    "logo": "public/icones/logoworld.png",
+    "logo": "icones/logoworld.png",
     "money": 0,
     "score": 0,
     "totalangels": 0,
@@ -11,7 +11,8 @@ module.exports = {
         {
             "id": 1,
             "name": "Papyrus",
-            "logo": "public/icones/papyrus.png", "cout": 4,
+            "logo": "icones/papyrus.png", 
+            "cout": 4,
             "croissance": 1.07,
             "revenu": 1,
             "vitesse": 500,
@@ -21,7 +22,7 @@ module.exports = {
             "paliers": [
                 {
                     "name": "Papyrus 1", 
-                    "logo": "public/icones/papyrus.png", 
+                    "logo": "icones/papyrus.png", 
                     "seuil": 20,
                     "idcible": 1,
                     "ratio": 2,
@@ -30,18 +31,47 @@ module.exports = {
                 }, 
                 {
                     "name": "Papyrus 2", 
-                    "logo": "public/icones/papyrus.png", 
+                    "logo": "icones/papyrus.png", 
                     "seuil": 75,
                     "idcible": 1,
                     "ratio": 2,
                     "typeratio": "vitesse",
                     "unlocked": false
-                }]
+                },
+                {
+                    "name": "Papyrus 3", 
+                    "logo": "icones/papyrus.png", 
+                    "seuil": 150,
+                    "idcible": 1,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Papyrus 4", 
+                    "logo": "icones/papyrus.png", 
+                    "seuil": 300,
+                    "idcible": 1,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Papyrus 5", 
+                    "logo": "icones/papyrus.png", 
+                    "seuil": 550,
+                    "idcible": 1,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                }
+            ]
         },
         {
             "id": 2,
             "name": "Chat",
-            "logo": "public/icones/chat.png", "cout": 60,
+            "logo": "icones/chat.png", 
+            "cout": 60,
             "croissance": 1.15,
             "revenu": 60,
             "vitesse": 3000,
@@ -51,7 +81,7 @@ module.exports = {
             "paliers": [
                 {
                     "name": "Chat 1", 
-                    "logo": "public/icones/chat.png", 
+                    "logo": "icones/chat.png", 
                     "seuil": 20,
                     "idcible": 2,
                     "ratio": 2,
@@ -60,9 +90,36 @@ module.exports = {
                 }, 
                 {
                     "name": "Chat 2", 
-                    "logo": "public/icones/chat.png", 
+                    "logo": "icones/chat.png", 
                     "seuil": 75,
                     "idcible": 2,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Chat 3", 
+                    "logo": "icones/chat.png", 
+                    "seuil": 150,
+                    "idcible": 1,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Chat 4", 
+                    "logo": "icones/chat.png", 
+                    "seuil": 300,
+                    "idcible": 1,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Chat 5", 
+                    "logo": "icones/chat.png",  
+                    "seuil": 550,
+                    "idcible": 1,
                     "ratio": 2,
                     "typeratio": "vitesse",
                     "unlocked": false
@@ -71,7 +128,8 @@ module.exports = {
         {
             "id": 3,
             "name": "Batton",
-            "logo": "public/icones/batton.png", "cout": 720,
+            "logo": "icones/batton.png", 
+            "cout": 720,
             "croissance": 1.14,
             "revenu": 540,
             "vitesse": 6000,
@@ -81,7 +139,7 @@ module.exports = {
             "paliers": [
                 {
                     "name": "Batton 1", 
-                    "logo": "public/icones/batton.png", 
+                    "logo": "icones/batton.png", 
                     "seuil": 20,
                     "idcible": 3,
                     "ratio": 2,
@@ -90,9 +148,36 @@ module.exports = {
                 }, 
                 {
                     "name": "Batton 2", 
-                    "logo": "public/icones/batton.png", 
+                    "logo": "icones/batton.png", 
                     "seuil": 75,
                     "idcible": 3,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Batton 3", 
+                    "logo": "icones/batton.png", 
+                    "seuil": 150,
+                    "idcible": 1,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Batton 4", 
+                    "logo": "icones/batton.png", 
+                    "seuil": 300,
+                    "idcible": 1,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Batton 5", 
+                    "logo": "icones/batton.png",  
+                    "seuil": 550,
+                    "idcible": 1,
                     "ratio": 2,
                     "typeratio": "vitesse",
                     "unlocked": false
@@ -101,7 +186,7 @@ module.exports = {
         {
             "id": 4,
             "name": "Oeuil de Ra",
-            "logo": "public/icones/ra.png", "cout": 8640,
+            "logo": "icones/ra.png", "cout": 8640,
             "croissance": 1.13,
             "revenu": 4320,
             "vitesse": 12000,
@@ -111,7 +196,7 @@ module.exports = {
             "paliers": [
                 {
                     "name": "Oeuil de Ra 1", 
-                    "logo": "public/icones/ra.png", 
+                    "logo": "icones/ra.png", 
                     "seuil": 20,
                     "idcible": 4,
                     "ratio": 2,
@@ -120,9 +205,36 @@ module.exports = {
                 }, 
                 {
                     "name": "Oeuil de Ra 2", 
-                    "logo": "public/icones/ra.png", 
+                    "logo": "icones/ra.png", 
                     "seuil": 75,
                     "idcible": 4,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Oeuil de Ra 3", 
+                    "logo": "icones/ra.png", 
+                    "seuil": 150,
+                    "idcible": 1,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Oeuil de Ra 4", 
+                    "logo": "icones/ra.png", 
+                    "seuil": 300,
+                    "idcible": 1,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Oeuil de Ra 5", 
+                    "logo": "icones/ra.png",  
+                    "seuil": 550,
+                    "idcible": 1,
                     "ratio": 2,
                     "typeratio": "vitesse",
                     "unlocked": false
@@ -131,7 +243,7 @@ module.exports = {
         {
             "id": 5,
             "name": "Isis",
-            "logo": "public/icones/isis.png", "cout": 103680,
+            "logo": "icones/isis.png", "cout": 103680,
             "croissance": 1.12,
             "revenu": 51840,
             "vitesse": 24000,
@@ -141,7 +253,7 @@ module.exports = {
             "paliers": [
                 {
                     "name": "Isis 1", 
-                    "logo": "public/icones/isis.png", 
+                    "logo": "icones/isis.png", 
                     "seuil": 20,
                     "idcible": 5,
                     "ratio": 2,
@@ -150,9 +262,36 @@ module.exports = {
                 }, 
                 {
                     "name": "Isis 2", 
-                    "logo": "public/icones/isis.png", 
+                    "logo": "icones/isis.png", 
                     "seuil": 75,
                     "idcible": 5,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Isis 3", 
+                    "logo": "icones/isis.png", 
+                    "seuil": 150,
+                    "idcible": 1,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Isis 4", 
+                    "logo": "icones/isis.png", 
+                    "seuil": 300,
+                    "idcible": 1,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Isis 5", 
+                    "logo": "icones/isis.png", 
+                    "seuil": 550,
+                    "idcible": 1,
                     "ratio": 2,
                     "typeratio": "vitesse",
                     "unlocked": false
@@ -161,7 +300,7 @@ module.exports = {
         {
             "id": 6,
             "name": "Pharaon",
-            "logo": "public/icones/pharaon.png", "cout": 1244160,
+            "logo": "icones/pharaon.png", "cout": 1244160,
             "croissance": 1.11,
             "revenu": 622080,
             "vitesse": 96000,
@@ -171,7 +310,7 @@ module.exports = {
             "paliers": [
                 {
                     "name": "Pharaon 1", 
-                    "logo": "public/icones/pharaon.png", 
+                    "logo": "icones/pharaon.png", 
                     "seuil": 20,
                     "idcible": 6,
                     "ratio": 2,
@@ -180,9 +319,36 @@ module.exports = {
                 }, 
                 {
                     "name": "Pharaon 2", 
-                    "logo": "public/icones/pharaon.png", 
+                    "logo": "icones/pharaon.png", 
                     "seuil": 75,
                     "idcible": 6,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Pharaon 3", 
+                    "logo": "icones/pharaon.png", 
+                    "seuil": 150,
+                    "idcible": 1,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Pharaon 4", 
+                    "logo": "icones/pharaon.png", 
+                    "seuil": 300,
+                    "idcible": 1,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Pharaon 5", 
+                    "logo": "icones/pharaon.png", 
+                    "seuil": 550,
+                    "idcible": 1,
                     "ratio": 2,
                     "typeratio": "vitesse",
                     "unlocked": false
@@ -191,14 +357,50 @@ module.exports = {
     ],
     "allunlocks": [
         {
-            "name": "Nom du premier unlock général", 
-            "logo": "icones/premierunlock.jpg", 
+            "name": "Egypte 1", 
+            "logo": "icones/allunlocks.jpg", 
             "seuil": 30,
             "idcible": 0,
             "ratio": 2,
             "typeratio": "gain",
             "unlocked": false
         },
+        {
+            "name": "Egypte 2", 
+            "logo": "icones/allunlocks.jpg", 
+            "seuil": 100,
+            "idcible": 0,
+            "ratio": 2,
+            "typeratio": "gain",
+            "unlocked": false
+        },
+        {
+            "name": "Egypte 3", 
+            "logo": "icones/allunlocks.jpg", 
+            "seuil": 300,
+            "idcible": 0,
+            "ratio": 2,
+            "typeratio": "gain",
+            "unlocked": false
+        },
+        {
+            "name": "Egypte 4", 
+            "logo": "icones/allunlocks.jpg", 
+            "seuil": 500,
+            "idcible": 0,
+            "ratio": 2,
+            "typeratio": "gain",
+            "unlocked": false
+        },
+        {
+            "name": "Egypte 5", 
+            "logo": "icones/allunlocks.jpg", 
+            "seuil": 680,
+            "idcible": 0,
+            "ratio": 2,
+            "typeratio": "gain",
+            "unlocked": false
+        }
     ],
     "upgrades": [
         {
