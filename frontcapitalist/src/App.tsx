@@ -114,3 +114,16 @@ function App() {
 }
 
 export default App;
+
+
+// =========   TO DO LIST :  =========
+//
+//    AddToScore : l'argent crée depuis le debut
+//    Demander au prof pour les images
+//    Demander au prof pour le calcul des gains
+//    Demander au prof pour les services
+//    Page 41 ?
+//    Faire en sorte de faire fonctionner la persistance avec notre monde (pb avec le back psq avec le serv de test ça marche)
+//    Pour timeleft faire un usestate, ne pas changer 
+//    Si les unlocks sont trop nombreux, vous pouvez choisir de n’afficher que les n premiers, ou de n’afficher que le prochain seuil associé à chaque produit.
+//    Fermer la fenetre des unlocks si on ouvre la fenetre des managers et inversement

@@ -65,31 +65,41 @@ export default function UnlockComponent({world, money, showUnlocks, onCloseUnloc
             <div className="modal">
                 <div>
                     <h1 className="title">Unlockssss !</h1>
-                </div>
-                <div>
-                {world.products.map(product => (
-                <div key={product.id}>
-                    <h2>{product.name}</h2>
-                    <ul>
-                    {product.paliers.map(palier => ( !palier.unlocked &&
-                        <li>
-                            <div className='unlock'>
-                                <img src={palier.logo} />
-                                <h3>{palier.name} </h3>
+                    <div>
+                        <div className='allUnlocks'>
+                            <div className='headerUnlock'><img src={world.allunlocks[0].logo} /> <h2>Les unlocks globaux</h2></div>
+                            <ul>
+                            {world.allunlocks.map(unlock => (
+                                <li key={unlock.idcible}>
+                                    <h3>{unlock.name}</h3>
+                                    <p>{unlock.seuil}</p>
+                                    {unlock.typeratio} x{unlock.ratio}
+
+                                </li>
+                            ))}
+                            </ul>
+                        </div>
+                        {world.products.map(product => (
+                            <div key={product.id}>
+                                <div className='headerUnlock'><img src={product.logo} /><h2>{product.name}</h2></div>
+                                <ul>
+                                {product.paliers.map(palier => ( !palier.unlocked &&
+                                    <li>
+                                        <div className='unlock'>
+                                            <h3>{palier.name} </h3>
+                                        </div>
+
+                                        <h2>{palier.seuil}</h2>
+                                        {palier.typeratio} x{palier.ratio}                                        
+                                    </li>
+                                ))}
+                                </ul>
                             </div>
-
-                            <h2>{palier.seuil}</h2>
-                            {palier.typeratio} x{palier.ratio}
-                            {palier.unlocked}
-                            
-                        </li>
-                    ))}
-                    </ul>
-                </div>
-                ))}
-                    <Button className="closebutton"  onClick={close} >Close</Button>
+                        ))}
+                        <Button className="closebutton"  onClick={close} >Close</Button>
 
 
+                    </div>
                 </div>
             </div>
         } </div>
