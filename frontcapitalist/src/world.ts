@@ -34,7 +34,7 @@ export class Product {
     vitesse: number = 0
     quantite: number = 0
     timeleft: number = 0
-    lastupdate: number = 0
+    lastupdate: string = ""
     managerUnlocked: boolean = false
     paliers : Pallier[]
     constructor() {
