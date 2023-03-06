@@ -1,5 +1,5 @@
 function saveWorld(context) {
-  world.lastupdate = Date.now().toString();
+  context.world.lastupdate = Date.now().toString();
   const fs = require("fs").promises;
   fs.writeFile(
     "userworlds/" + context.user + "-world.json",
@@ -13,63 +13,64 @@ function saveWorld(context) {
   );
 }
 function majScore(context) {
-  console.log("maj score")
+  console.log("maj score");
   let world = context.world;
   let produits = world.products;
-  for(var i= 0; i < produits.length; i++){
-    let tempsEcoule = Date.now() -  parseInt(world.lastupdate);
+  for (var i = 0; i < produits.length; i++) {
+    let tempsEcoule = Date.now() - parseInt(world.lastupdate);
     let produit = produits[i];
-    if(produit.managerUnlocked){
-      tempsEcoule = tempsEcoule - produit.timeleft
-      
-      if(tempsEcoule < 0){
+    if (produit.managerUnlocked) {
+      tempsEcoule = tempsEcoule - produit.timeleft;
+
+      if (tempsEcoule < 0) {
         produit.timeleft -= tempsEcoule;
-      }else{
+      } else {
         //division entière
-        let nbProduction = Math.floor(tempsEcoule,produit.vitesse)+1;
+        let nbProduction = Math.floor(tempsEcoule, produit.vitesse) + 1;
         //temps restant avec le reste de la division
         produit.timeleft = tempsEcoule % produit.vitesse;
         //on met a jour le score et la money
-        world.score += produit.revenu*produit.quantite*nbProduction;
-        world.money += produit.revenu*produit.quantite*nbProduction;
-    }
-      
-    }else{
-      if(produit.timeleft!=0 && produit.timeleft<=tempsEcoule){
-        //on met a jour le score et la money
-        world.score += produit.revenu*produit.quantite;
-        world.money += produit.revenu*produit.quantite;
-      }else{
-        produit.timeleft -= tempsEcoule;
+        world.score += produit.revenu * produit.quantite * nbProduction;
+        world.money += produit.revenu * produit.quantite * nbProduction;
+      }
+    } else {
+      if (produit.timeleft != 0) {
+        if (produit.timeleft <= tempsEcoule) {
+          //on met a jour le score et la money
+          world.score += produit.revenu * produit.quantite;
+          world.money += produit.revenu * produit.quantite;
+        } else {
+          produit.timeleft -= tempsEcoule;
+        }
       }
     }
   }
 }
-function appliquerBonus(palier, context){
+function appliquerBonus(palier, context) {
   let produitid = palier.idcible;
-  let produits = []
-  if(produitid!=0){
+  let produits = [];
+  if (produitid != 0) {
     produits = context.world.products.find((p) => p.id === produitid);
-  }else{
-    produits = context.world.products
+  } else {
+    produits = context.world.products;
   }
-  produits.forEach(produit =>{
-    if(palier.typeratio == "vitesse"){
-      produit.vitesse = produit.vitesse/palier.ratio;
-    }else if(palier.typeratio == "gain"){
-      produit.revenu = produit.revenu*palier.ratio;
+  produits.forEach((produit) => {
+    if (palier.typeratio == "vitesse") {
+      produit.vitesse = produit.vitesse / palier.ratio;
+    } else if (palier.typeratio == "gain") {
+      produit.revenu = produit.revenu * palier.ratio;
     }
-  })
-  
+  });
 }
-function allunlocks(){
-  paliers = paliers.filter(palier => !palier.unlocked && produit.quantite>=palier.seuil);
-  paliers.forEach(palier => {
+function allunlocks() {
+  paliers = paliers.filter(
+    (palier) => !palier.unlocked && produit.quantite >= palier.seuil
+  );
+  paliers.forEach((palier) => {
     palier.unlocked = true;
     appliquerBonus(palier, context);
   });
 }
-
 
 module.exports = {
   Query: {
@@ -93,17 +94,21 @@ module.exports = {
       if (produit === undefined) {
         throw new Error(`Le produit avec l'id ${args.id} n'existe pas`);
       } else {
-        produit.quantite += produitquantite,
-        world.money -= produit.cout * Math.pow(produit.croissance,(produitquantite -1)),
-        produit.cout = produit.cout * Math.pow(produit.croissance,produitquantite)
+        (produit.quantite += produitquantite),
+          (world.money -=
+            produit.cout * Math.pow(produit.croissance, produitquantite - 1)),
+          (produit.cout =
+            produit.cout * Math.pow(produit.croissance, produitquantite));
 
-        paliers = paliers.filter(palier => !palier.unlocked && produit.quantite>=palier.seuil);
-        paliers.forEach(palier => {
+        paliers = paliers.filter(
+          (palier) => !palier.unlocked && produit.quantite >= palier.seuil
+        );
+        paliers.forEach((palier) => {
           palier.unlocked = true;
           appliquerBonus(palier, context);
         });
         allunlocks();
-        saveWorld(context)
+        saveWorld(context);
       }
       return produit;
     },
@@ -118,7 +123,7 @@ module.exports = {
       if (produit === undefined) {
         throw new Error(`Le produit avec l'id ${args.id} n'existe pas`);
       } else {
-        produit.timeleft = produit.vitesse
+        produit.timeleft = produit.vitesse;
         saveWorld(context);
       }
       return produit;
@@ -134,14 +139,13 @@ module.exports = {
       if (manager === undefined) {
         throw new Error(`Le manager avec le nom ${args.name} n'existe pas`);
       } else {
-        produit.managerUnlocked = true,
-        manager.unlocked = true;
-        world.money -= manager.seuil
+        (produit.managerUnlocked = true), (manager.unlocked = true);
+        world.money -= manager.seuil;
         saveWorld(context);
       }
       return manager;
     },
-    acheterCashUpgrade(parent, args, context){
+    acheterCashUpgrade(parent, args, context) {
       majScore(context);
       let world = context.world;
       let cashUpgradeName = args.name;
@@ -150,12 +154,12 @@ module.exports = {
         throw new Error(`L'update avec le nom ${args.name} n'existe pas`);
       } else {
         cashUpgrade.unlocked = true;
-        world.money -= cashUpgrade.seuil
+        world.money -= cashUpgrade.seuil;
         appliquerBonus(cashUpgrade, context);
         saveWorld(context);
       }
-      
+
       return cashUpgrade;
-    }
+    },
   },
 };
