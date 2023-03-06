@@ -1,4 +1,5 @@
 function saveWorld(context) {
+  world.lastupdate = Date.now().toString();
   const fs = require("fs").promises;
   fs.writeFile(
     "userworlds/" + context.user + "-world.json",
@@ -68,6 +69,8 @@ function allunlocks(){
     appliquerBonus(palier, context);
   });
 }
+
+
 module.exports = {
   Query: {
     getWorld(parent, args, context) {
@@ -100,8 +103,6 @@ module.exports = {
           appliquerBonus(palier, context);
         });
         allunlocks();
-
-        world.lastupdate = Date.now().toString();
         saveWorld(context)
       }
       return produit;
@@ -117,8 +118,7 @@ module.exports = {
       if (produit === undefined) {
         throw new Error(`Le produit avec l'id ${args.id} n'existe pas`);
       } else {
-        produit.timeleft = produit.vitesse,
-        world.lastupdate = Date.now().toString();
+        produit.timeleft = produit.vitesse
         saveWorld(context);
       }
       return produit;
@@ -136,8 +136,7 @@ module.exports = {
       } else {
         produit.managerUnlocked = true,
         manager.unlocked = true;
-        world.money -= manager.seuil,
-        world.lastupdate = Date.now().toString();
+        world.money -= manager.seuil
         saveWorld(context);
       }
       return manager;
@@ -153,7 +152,6 @@ module.exports = {
         cashUpgrade.unlocked = true;
         world.money -= cashUpgrade.seuil
         appliquerBonus(cashUpgrade, context);
-        world.lastupdate = Date.now().toString();
         saveWorld(context);
       }
       
