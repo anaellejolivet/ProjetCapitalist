@@ -12,13 +12,16 @@ function saveWorld(context) {
   );
 }
 function majScore(context) {
+  console.log("maj score")
   let world = context.world;
   let produits = world.products;
   for(var i= 0; i < produits.length; i++){
-    let tempsEcoule = Date.now() -  parseInt(world.lastupdate);
+    let tempsEcoule = Date.now() -  world.lastupdate;
+    console.log(tempsEcoule)
     let produit = produits[i];
     if(produit.managerUnlocked){
       tempsEcoule = tempsEcoule - produit.timeleft
+      
       if(tempsEcoule < 0){
         produit.timeleft -= tempsEcoule;
       }else{
@@ -83,7 +86,7 @@ module.exports = {
           appliquerBonus(palier, context);
         });
 
-        world.lastupdate = Date.now();
+        world.lastupdate = Date.now().toString();
         saveWorld(context)
       }
       return produit;
@@ -100,7 +103,7 @@ module.exports = {
         throw new Error(`Le produit avec l'id ${args.id} n'existe pas`);
       } else {
         produit.timeleft = produit.vitesse,
-        world.lastupdate = Date.now();
+        world.lastupdate = Date.now().toString();
         saveWorld(context);
       }
       return produit;
@@ -108,8 +111,6 @@ module.exports = {
     engagerManager(parent, args, context) {
       majScore(context);
       let world = context.world;
-
-      console.log(args);
       let managername = args.name;
 
       let manager = world.managers.find((m) => m.name === managername);
@@ -121,7 +122,7 @@ module.exports = {
         produit.managerUnlocked = true,
         manager.unlocked = true;
         world.money -= manager.seuil,
-        world.lastupdate = Date.now();
+        world.lastupdate = Date.now().toString();
         saveWorld(context);
       }
       return manager;
@@ -137,7 +138,7 @@ module.exports = {
         cashUpgrade.unlocked = true;
         world.money -= cashUpgrade.seuil
         appliquerBonus(cashUpgrade, context);
-        world.lastupdate = Date.now();
+        world.lastupdate = Date.now().toString();
         saveWorld(context);
       }
       
