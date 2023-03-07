@@ -62,13 +62,19 @@ function appliquerBonus(palier, context) {
     }
   });
 }
-function allunlocks() {
-  paliers = paliers.filter(
-    (palier) => !palier.unlocked && produit.quantite >= palier.seuil
-  );
-  paliers.forEach((palier) => {
-    palier.unlocked = true;
-    appliquerBonus(palier, context);
+function allunlocks(context) {
+  allunlocks = allunlocks.filter((allunlock) => !allunlock.unlocked);
+  products = context.world.products;
+  allunlocks.forEach((allunlock) => {
+    allunlock.unlocked = true;
+    products.forEach((product)=>{
+      if(product.quantite <= allunlock.seuil){
+        allunlock.unlocked = false;
+      }
+    })
+    if(allunlock.unlocked){
+      appliquerBonus(allunlock, context);
+    }
   });
 }
 
@@ -107,7 +113,7 @@ module.exports = {
           palier.unlocked = true;
           appliquerBonus(palier, context);
         });
-        allunlocks();
+        allunlocks(context);
         saveWorld(context);
       }
       return produit;
