@@ -89,3 +89,12 @@ grid-template-columns: 20% 80%;
   display: flex;
   align-items: center;
  }
+
+ .headerUnlock{
+  display: flex;
+  align-items: center;
+ }
+
+ .headerUnlock *{
+  padding: 12px;
+ }

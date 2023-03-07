@@ -85,7 +85,6 @@ export default function Main({ loadworld, username } : MainProps) {
 
     function onProductBuy(qt:number, product: Product) {
         // world.money = world.money + gain
-        console.log("DFCGVHBJNK?HBGVFCDGVHBJN")
         let facture = devis(product,qt)
 
         product.quantite = product.quantite + qt
@@ -97,8 +96,21 @@ export default function Main({ loadworld, username } : MainProps) {
         // ================================DETAIL A REGLER =========================
 
         // ++++++++++++ QUAND JE MET CA FAIT BUGGER L'AFFICHAGE MAIS LA PERSISTANCE FONCTIONNE ++++++++++++
-        achatProduit({ variables: { id: product.id, quantite: qt } });
+        //achatProduit({ variables: { id: product.id, quantite: qt } });
 
+        world.products.forEach(product => {
+            product.paliers.forEach(palier =>{
+                if (palier.seuil <= product.quantite) {
+                    palier.unlocked = true
+                }
+            });
+        });
+        
+        world.allunlocks.forEach(unlock => {
+            if (unlock.seuil <= product.quantite) {
+                unlock.unlocked = true
+            }
+        });
 
     }
 

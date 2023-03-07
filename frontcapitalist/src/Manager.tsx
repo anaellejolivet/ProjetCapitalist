@@ -25,7 +25,7 @@ type ManagerProps = {
 export default function ManagerComponent({world, money, showManagers, onCloseManager, onManagerHired} : ManagerProps) { 
 
     const [show, setShow] = useState(showManagers);
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         console.log("loead manager")
