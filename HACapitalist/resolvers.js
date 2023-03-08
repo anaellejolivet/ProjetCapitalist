@@ -49,6 +49,7 @@ function majScore(context) {
           world.score += produit.revenu * produit.quantite;
           world.money += produit.revenu * produit.quantite;
           produit.timeleft = 0;
+          console.log(produit.timeleft)
         } else {
           produit.timeleft -= tempsEcoule;
         }
@@ -67,13 +68,13 @@ function appliquerBonus(palier, context) {
   } 
   //Cas 2 : idcible pour tout les produits (0)
   else {
-    produits.push(context.world.products);
+    produits = context.world.products;
   }
   produits.forEach((produit) => {
     if (palier.typeratio == "vitesse") {
       //reduction du temps de production
       produit.vitesse = produit.vitesse / palier.ratio;
-    } else if (palier.typeratio == "gain") {
+    } else {
       //augmentation du revenu 
       produit.revenu = produit.revenu * palier.ratio;
     }
@@ -93,6 +94,7 @@ function allunlocks(context) {
       }
     })
     if(allunlock.unlocked){
+      console.log("allunlock bonus")
       appliquerBonus(allunlock, context);
     }
   });
@@ -151,7 +153,7 @@ module.exports = {
       if (produit === undefined) {
         throw new Error(`Le produit avec l'id ${args.id} n'existe pas`);
       } else {
-        produit.timeleft = produit.vitesse;
+        produit.timeleft = Math.round(produit.vitesse);
         saveWorld(context);
       }
       return produit;
