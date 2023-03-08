@@ -6,6 +6,11 @@ import ProductComponent from './Product';
 import ManagerComponent from './Manager';
 import { gql, useMutation } from '@apollo/client';
 import UnlockComponent from './Unlock';
+import { all } from 'q';
+import { IconButton } from '@mui/material';
+import Snackbar from '@mui/material/Snackbar';
+import CloseIcon from '@mui/icons-material/Close';
+import CashUpgradesComponent from './CashUpgrades';
 
 
 type MainProps = {
@@ -23,10 +28,42 @@ export default function Main({ loadworld, username } : MainProps) {
 
     const [showManagers, setShowManagers] = useState(false);
     const [showUnlocks, setShowUnlocks] = useState(false);
+    const [showUpgrades, setShowUpgrades] = useState(false);
+
 
     useEffect(() => {
         setWorld(JSON.parse(JSON.stringify(loadworld)) as World)
     }, [loadworld])
+
+    const [open, setOpen] = useState(false);
+
+    // ------ SNACKBAR ---------------------------------------------
+    const [messageSnackBar, setMessageSnackBar] = useState("");
+
+    const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+    
+        setOpen(false);
+    };
+
+    const action = (
+        <React.Fragment>
+            <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleClose}
+            >
+            <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
+
+    // ------ /SNACKBAR ---------------------------------------------
+
+
 
 
 
@@ -65,6 +102,22 @@ export default function Main({ loadworld, username } : MainProps) {
                 }
             )
 
+            // ~~~~ Achat d'un Cash Upgrade
+            const ACHETER_CASH_UPGRADE = gql`
+            mutation acheterCashUpgrade($name: String!) {
+                acheterCashUpgrade(name: $name) {
+                    name
+                }
+            }`
+
+            const [acheterCashUpgrade] = useMutation(ACHETER_CASH_UPGRADE,
+                { context: { headers: { "x-user": username }},
+                    onError: (error): void => {
+                    // actions en cas d'erreur
+                    }
+                }
+            )
+
     // ------ /MUTATION ---------------------------------------------
 
 
@@ -84,7 +137,6 @@ export default function Main({ loadworld, username } : MainProps) {
     }
 
     function onProductBuy(qt:number, product: Product) {
-        // world.money = world.money + gain
         let facture = devis(product,qt)
 
         product.quantite = product.quantite + qt
@@ -96,19 +148,44 @@ export default function Main({ loadworld, username } : MainProps) {
         // ================================DETAIL A REGLER =========================
 
         // ++++++++++++ QUAND JE MET CA FAIT BUGGER L'AFFICHAGE MAIS LA PERSISTANCE FONCTIONNE ++++++++++++
-        //achatProduit({ variables: { id: product.id, quantite: qt } });
+        achatProduit({ variables: { id: product.id, quantite: qt } });
 
         world.products.forEach(product => {
             product.paliers.forEach(palier =>{
-                if (palier.seuil <= product.quantite) {
+                if (palier.seuil <= product.quantite && palier.unlocked != true ) {
                     palier.unlocked = true
+                    switch (palier.typeratio) {
+                        case "vitesse":
+                            product.revenu = product.vitesse/palier.ratio
+                            break;
+                        case "gain":
+                            product.vitesse = product.vitesse/palier.ratio
+                            break;
+                        default:
+                            break;
+                    }
+                    setMessageSnackBar(palier.name + " ! ==> "+ palier.typeratio + " x" + palier.ratio)
+                    setOpen(true)
                 }
             });
         });
-        
+
         world.allunlocks.forEach(unlock => {
-            if (unlock.seuil <= product.quantite) {
-                unlock.unlocked = true
+            if (unlock.seuil <= product.quantite && !unlock.unlocked) {
+                let allGood = true
+                world.products.forEach(p => {
+                    if (unlock.seuil > p.quantite) {
+                        allGood = false
+                        return
+                    }
+                })
+
+                if (allGood) {
+                    unlock.unlocked = true
+                    setMessageSnackBar(unlock.name + " ! ==> "+ unlock.typeratio + " x" + unlock.ratio)
+                    setOpen(true)
+                    
+                }
             }
         });
 
@@ -121,6 +198,10 @@ export default function Main({ loadworld, username } : MainProps) {
     function onCloseUnlock() {
         setShowUnlocks(!showUnlocks)
     }
+
+    function onCloseCashUpgrades() {
+        setShowUpgrades(!showUpgrades)
+    }
     
     function onManagerHired(manager: Pallier) {
 
@@ -130,17 +211,9 @@ export default function Main({ loadworld, username } : MainProps) {
         // ================================DETAIL A REGLER =========================
         manager.unlocked= true
 
-        console.log(world.products[manager.idcible].name)
-        console.log(world.products[0].managerUnlocked)
-
-
-        console.log(world.products[manager.idcible].managerUnlocked)
-
         world.products[manager.idcible-1].managerUnlocked = true;
-        console.log(world.products[manager.idcible].managerUnlocked)
 
         engagerManager({ variables: { name: manager.name } });
-
         
     }
 
@@ -164,6 +237,31 @@ export default function Main({ loadworld, username } : MainProps) {
         }
     }
 
+    function onUpgradeBought(upgrade:Pallier) {
+        world.money = world.money - upgrade.seuil
+        setMoney(money - upgrade.seuil)
+
+
+        switch (upgrade.typeratio) {
+            case "vitesse":
+                world.products[upgrade.idcible].revenu = world.products[upgrade.idcible].vitesse/upgrade.ratio
+                break;
+            case "gain":
+                world.products[upgrade.idcible].vitesse = world.products[upgrade.idcible].vitesse/upgrade.ratio
+                break;
+            default:
+                break;
+        }
+
+        acheterCashUpgrade({ variables: { name: upgrade.name } });
+        upgrade.unlocked= true
+
+        setMessageSnackBar(upgrade.name + " ! ==> "+ upgrade.typeratio + " x" + upgrade.ratio)
+        setOpen(true)
+        
+
+    }
+
     return (
     <div className="main">
 
@@ -180,8 +278,12 @@ export default function Main({ loadworld, username } : MainProps) {
                 <div>
                     <button onClick={() => setShowManagers(!showManagers)}>{showManagers ? 'Hide Managers' : 'Show Managers'}</button>
                     {showManagers && <ManagerComponent world={world} money={world.money} showManagers={showManagers} onCloseManager={onCloseManager} onManagerHired={onManagerHired} />}
+                    
                     <button onClick={() => setShowUnlocks(!showUnlocks)}>{showUnlocks ? 'Hide Unlocks' : 'Show Unlocks'}</button>
                     {showUnlocks && <UnlockComponent world={world} money={world.money} showUnlocks={showUnlocks} onCloseUnlock={onCloseUnlock} />}
+
+                    <button onClick={() => setShowUpgrades(!showUpgrades)}>{showUpgrades ? 'Hide Upgrades' : 'Show Upgrades'}</button>
+                    {showUpgrades && <CashUpgradesComponent world={world} money={world.money} showUpgrades={showUpgrades} onCloseCashUpgrades={onCloseCashUpgrades} onUpgradeBought={onUpgradeBought} />}
 
                 </div>
                 <div className='button'> <img src="" /> <p>Button B</p></div>
@@ -200,6 +302,13 @@ export default function Main({ loadworld, username } : MainProps) {
 
             </div>
         </div>
+        <Snackbar
+            open={open}
+            autoHideDuration={6000}
+            onClose={handleClose}
+            message={messageSnackBar}
+            action={action}
+        />
     </div>
     );
 

@@ -85,41 +85,24 @@ export default function ProductComponent({product, onProductBuy, onProductionDon
     }
     
     function buyProduct() {
+        // console.log(product.revenu)
+        // console.log(product.vitesse)
 
         let maxCanBuy = calcMaxCanBuy()
-
-        // console.log("Argent dans la pocket : " + worldmoney)
-        // console.log("Max Can Buy :" + maxCanBuy)
-        // console.log("Quantité desirée :" + qtmulti)
-        // console.log("Quantité produit :" + product.quantite)
-        //console.log("Cout produit :" + product.cout)
-        // console.log("Croissant :" + product.croissance)
 
         switch (qtmulti) {
             case "x1" :
             case "x10" :
             case "x100":
-                //console.log("là peut etre ?")
 
                 let qtmulti_Int = parseInt(qtmulti.substring(1))
 
                 if (qtmulti_Int <= maxCanBuy ) {
-                    // console.log("j'arrvie ici")
-                    // APPEL DE LA FONCTION ON PRODUCT BUY A LA PLACE
-                    // setQuantite(product.quantite + qtmulti_Int)
-                    // product.quantite = product.quantite + qtmulti_Int
-                    // worldmoney = worldmoney - product.cout
-                    // APPEL DE LA FONCTION ON PRODUCT BUY A LA PLACE
                     onProductBuy(qtmulti_Int,product)
                 }
                 break;
             case "Max":
                 if (maxCanBuy > 0) {
-                    // APPEL DE LA FONCTION ON PRODUCT BUY A LA PLACE
-                    // setQuantite(product.quantite + maxCanBuy)
-                    // product.quantite = product.quantite + maxCanBuy
-                    // worldmoney = worldmoney - product.cout
-                    // APPEL DE LA FONCTION ON PRODUCT BUY A LA PLACE
                     console.log(maxCanBuy)
                     onProductBuy(maxCanBuy,product)
                 }
@@ -181,9 +164,9 @@ export default function ProductComponent({product, onProductBuy, onProductionDon
                     auto={product.managerUnlocked}
                     orientation={Orientation.horizontal} />
                 }           
-                <Button disabled={desactiverButton()} onClick={buyProduct} id={"buyProduct" + product.id.toString()} >Buy {qtmulti} (Price : {
-                prixAfficher()
-                })</Button>
+                <Button disabled={desactiverButton()} onClick={buyProduct} id={"buyProduct" + product.id.toString()}>
+                    Buy {qtmulti} (Price : {prixAfficher()})
+                </Button>
             </div>
             
         </div>

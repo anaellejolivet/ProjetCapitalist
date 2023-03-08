@@ -12,7 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
 
-type ManagerProps = {
+type UnlockProps = {
     world: World
     money: number
     showUnlocks: boolean
@@ -20,13 +20,12 @@ type ManagerProps = {
 }
 
 
-export default function UnlockComponent({world, money, showUnlocks, onCloseUnlock} : ManagerProps) { 
+export default function UnlockComponent({world, money, showUnlocks, onCloseUnlock} : UnlockProps) { 
 
     const [show, setShow] = useState(showUnlocks);
     const [open, setOpen] = React.useState(false);
 
     useEffect(() => {
-        console.log("loead Unlock")
         setShow(showUnlocks);
     }, [showUnlocks]);
 
@@ -69,7 +68,7 @@ export default function UnlockComponent({world, money, showUnlocks, onCloseUnloc
                         <div className='allUnlocks'>
                             <div className='headerUnlock'><img src={world.allunlocks[0].logo} /> <h2>Les unlocks globaux</h2></div>
                             <ul>
-                            {world.allunlocks.map(unlock => (
+                            {world.allunlocks.map(unlock => ( !unlock.unlocked &&
                                 <li key={unlock.idcible}>
                                     <h3>{unlock.name}</h3>
                                     <p>{unlock.seuil}</p>

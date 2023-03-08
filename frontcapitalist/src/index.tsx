@@ -6,7 +6,6 @@ import reportWebVitals from './reportWebVitals';
 import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client";
 
 const client = new ApolloClient({
-    uri: 'https://isiscapitalistgraphql.kk.kurasawa.fr/graphql', // monde de test : https://isiscapitalistgraphql.kk.kurasawa.fr/graphql
     // monde de test : 'https://isiscapitalistgraphql.kk.kurasawa.fr/graphql'
     // Notre monde : 'http://localhost:4000/graphql'
     uri: 'https://isiscapitalistgraphql.kk.kurasawa.fr/graphql', 
