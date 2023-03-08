@@ -30,7 +30,11 @@ function majScore(context) {
         produit.timeleft -= tempsEcoule;
       } else {
         //division entière
-        let nbProduction = Math.floor(tempsEcoule, produit.vitesse) + 1;
+        let nbProduction = Math.floor(tempsEcoule / produit.vitesse);
+        console.log(tempsEcoule)
+        console.log(produit.vitesse)
+        console.log(Math.floor(tempsEcoule, produit.vitesse))
+        console.log(nbProduction)
         //temps restant avec le reste de la division
         produit.timeleft = tempsEcoule % produit.vitesse;
         //on met a jour le score et la money
