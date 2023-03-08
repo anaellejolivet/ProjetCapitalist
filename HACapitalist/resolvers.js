@@ -117,7 +117,7 @@ module.exports = {
         throw new Error(`Le produit avec l'id ${args.id} n'existe pas`);
       } else {
         produit.quantite += produitquantite,
-        world.money -= produit.cout * Math.pow(produit.croissance, produitquantite - 1),
+        world.money -= produit.cout * ((1-Math.pow(produit.croissance, produitquantite))/(1-produit.croissance)),
         produit.cout = produit.cout * Math.pow(produit.croissance, produitquantite);
 
         //on filtre les paliers qui ne sont pas déjà débloqués et dont la quantité de produit est supérieur au seuil du palier
