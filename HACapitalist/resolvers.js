@@ -84,7 +84,7 @@ function allunlocks(context) {
     allunlock.unlocked = true;
     //si la quantité d'un des produits ne dépasse pas le seuil du allunlock on ne le débloque pas
     products.forEach((product)=>{
-      if(product.quantite <= allunlock.seuil){
+      if(product.quantite < allunlock.seuil){
         allunlock.unlocked = false;
       }
     })

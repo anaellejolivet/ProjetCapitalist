@@ -482,7 +482,7 @@ module.exports = {
         {
             "name": "Sekhmet",
             "logo": "icones/manager-sekhmet.jpg", 
-            "seuil": 1000,
+            "seuil": 10,
             "idcible": 1,
             "ratio": 0,
             "typeratio": "gain",
