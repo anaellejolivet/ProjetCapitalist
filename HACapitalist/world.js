@@ -358,7 +358,7 @@ module.exports = {
     "allunlocks": [
         {
             "name": "Egypte 1", 
-            "logo": "icones/allunlocks.jpg", 
+            "logo": "icones/temple.jpg", 
             "seuil": 30,
             "idcible": 0,
             "ratio": 2,
@@ -367,7 +367,7 @@ module.exports = {
         },
         {
             "name": "Egypte 2", 
-            "logo": "icones/allunlocks.jpg", 
+            "logo": "icones/temple.jpg", 
             "seuil": 100,
             "idcible": 0,
             "ratio": 2,
@@ -376,7 +376,7 @@ module.exports = {
         },
         {
             "name": "Egypte 3", 
-            "logo": "icones/allunlocks.jpg", 
+            "logo": "icones/temple.jpg", 
             "seuil": 300,
             "idcible": 0,
             "ratio": 2,
@@ -385,7 +385,7 @@ module.exports = {
         },
         {
             "name": "Egypte 4", 
-            "logo": "icones/allunlocks.jpg", 
+            "logo": "icones/temple.jpg", 
             "seuil": 500,
             "idcible": 0,
             "ratio": 2,
@@ -394,7 +394,7 @@ module.exports = {
         },
         {
             "name": "Egypte 5", 
-            "logo": "icones/allunlocks.jpg", 
+            "logo": "icones/temple.jpg", 
             "seuil": 680,
             "idcible": 0,
             "ratio": 2,
@@ -404,10 +404,64 @@ module.exports = {
     ],
     "upgrades": [
         {
-            "name": "Nom du premier upgrade", 
-            "logo": "icones/premierupgrade.jpg", 
-            "seuil": 1e3,
+            "name": "Papyrus upgrade", 
+            "logo": "icones/papyrus.jpg", 
+            "seuil": 1200,
             "idcible": 1,
+            "ratio": 3,
+            "typeratio": "gain",
+            "unlocked": false
+        },
+        {
+            "name": "Chat upgrade", 
+            "logo": "icones/chat.jpg", 
+            "seuil": 16000,
+            "idcible": 2,
+            "ratio": 3,
+            "typeratio": "gain",
+            "unlocked": false
+        },
+        {
+            "name": "Batton upgrade", 
+            "logo": "icones/batton.jpg", 
+            "seuil": 110000,
+            "idcible": 3,
+            "ratio": 3,
+            "typeratio": "gain",
+            "unlocked": false
+        },
+        {
+            "name": "Oeuil de Ra upgrade", 
+            "logo": "icones/ra.jpg", 
+            "seuil": 700000,
+            "idcible": 4,
+            "ratio": 3,
+            "typeratio": "gain",
+            "unlocked": false
+        },
+        {
+            "name": "Isis upgrade", 
+            "logo": "icones/isis.jpg", 
+            "seuil": 1800000,
+            "idcible": 5,
+            "ratio": 3,
+            "typeratio": "gain",
+            "unlocked": false
+        },
+        {
+            "name": "Pharaon upgrade", 
+            "logo": "icones/pharaon.jpg", 
+            "seuil": 25000000,
+            "idcible": 6,
+            "ratio": 3,
+            "typeratio": "gain",
+            "unlocked": false
+        },
+        {
+            "name": "All upgrade", 
+            "logo": "icones/temple.jpg", 
+            "seuil": 111111111,
+            "idcible": 0,
             "ratio": 3,
             "typeratio": "gain",
             "unlocked": false
@@ -416,7 +470,7 @@ module.exports = {
     "angelupgrades": [
         {
             "name": "Sphynx",
-            "logo": "icones/angel.png",
+            "logo": "icones/sphynx.png",
             "seuil": 10,
             "idcible": 0,
             "ratio": 3,
@@ -426,13 +480,58 @@ module.exports = {
     ],
     "managers": [
         {
-            "name": "Wangari Maathai",
-            "logo": "icones/WangariMaathai.jpg", 
-            "seuil": 10,
+            "name": "Sekhmet",
+            "logo": "icones/manager-sekhmet.jpg", 
+            "seuil": 1000,
             "idcible": 1,
             "ratio": 0,
             "typeratio": "gain",
             "unlocked": false
         },
+        {
+            "name": "Anuket",
+            "logo": "icones/manager-anuket.jpg", 
+            "seuil": 15000,
+            "idcible": 2,
+            "ratio": 0,
+            "typeratio": "gain",
+            "unlocked": false
+        },
+        {
+            "name": "Anubis",
+            "logo": "icones/manager-anubis.jpg", 
+            "seuil": 100000,
+            "idcible": 3,
+            "ratio": 0,
+            "typeratio": "gain",
+            "unlocked": false
+        },
+        {
+            "name": "Ra",
+            "logo": "icones/manager-ra.jpg", 
+            "seuil": 500000,
+            "idcible": 4,
+            "ratio": 0,
+            "typeratio": "gain",
+            "unlocked": false
+        },
+        {
+            "name": "Amon-Rê",
+            "logo": "icones/manager-sun.jpg", 
+            "seuil": 1200000,
+            "idcible": 5,
+            "ratio": 0,
+            "typeratio": "gain",
+            "unlocked": false
+        },
+        {
+            "name": "Osiris",
+            "logo": "icones/manager-osiris.jpg", 
+            "seuil": 10000000,
+            "idcible": 6,
+            "ratio": 0,
+            "typeratio": "gain",
+            "unlocked": false
+        }
     ]
 };
