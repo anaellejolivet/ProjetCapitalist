@@ -59,11 +59,11 @@ function appliquerBonus(palier, context) {
   let produits = [];
   //Cas 1 : idcible est associé à un produit (entre 1 et 6)
   if (produitid != 0) {
-    produits = context.world.products.find((p) => p.id === produitid);
+    produits.push(context.world.products.find((p) => p.id === produitid));
   } 
   //Cas 2 : idcible pour tout les produits (0)
   else {
-    produits = context.world.products;
+    produits.push(context.world.products);
   }
   produits.forEach((produit) => {
     if (palier.typeratio == "vitesse") {
@@ -78,7 +78,7 @@ function appliquerBonus(palier, context) {
 
 //fonction verifiant à l'achat d'un produit si il débloque un allunlock (palier commun pour tout les produits)
 function allunlocks(context) {
-  allunlocks = allunlocks.filter((allunlock) => !allunlock.unlocked);
+  allunlocks = context.world.allunlocks.filter((allunlock) => !allunlock.unlocked);
   products = context.world.products;
   allunlocks.forEach((allunlock) => {
     allunlock.unlocked = true;
