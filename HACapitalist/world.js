@@ -2,7 +2,7 @@ module.exports = {
     "name": "Egypte antique",
     "logo": "icones/logoworld.png",
     "money": 0,
-    "score": 0,
+    "score": 10000000000,
     "totalangels": 0,
     "activeangels": 0,
     "angelbonus": 2,
@@ -469,7 +469,43 @@ module.exports = {
     ],
     "angelupgrades": [
         {
-            "name": "Sphynx",
+            "name": "Sphynx 1",
+            "logo": "icones/sphynx.png",
+            "seuil": 10,
+            "idcible": 0,
+            "ratio": 3,
+            "typeratio": "gain",
+            "unlocked": false
+        },
+        {
+            "name": "Sphynx 2",
+            "logo": "icones/sphynx.png",
+            "seuil": 10,
+            "idcible": 0,
+            "ratio": 3,
+            "typeratio": "gain",
+            "unlocked": false
+        },
+        {
+            "name": "Sphynx 3",
+            "logo": "icones/sphynx.png",
+            "seuil": 10,
+            "idcible": 0,
+            "ratio": 3,
+            "typeratio": "gain",
+            "unlocked": false
+        },
+        {
+            "name": "Sphynx 4",
+            "logo": "icones/sphynx.png",
+            "seuil": 10,
+            "idcible": 0,
+            "ratio": 3,
+            "typeratio": "gain",
+            "unlocked": false
+        },
+        {
+            "name": "Sphynx 5",
             "logo": "icones/sphynx.png",
             "seuil": 10,
             "idcible": 0,

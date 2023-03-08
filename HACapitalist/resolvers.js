@@ -31,29 +31,21 @@ function majScore(context) {
       } else {
         //division entière
         let nbProduction = Math.floor(tempsEcoule / produit.vitesse);
-        console.log(tempsEcoule)
-        console.log(produit.vitesse)
-        console.log(Math.floor(tempsEcoule, produit.vitesse))
-        console.log(nbProduction)
         //temps restant avec le reste de la division
         produit.timeleft = tempsEcoule % produit.vitesse;
         //on met a jour le score et la money
-        world.score += produit.revenu * produit.quantite * nbProduction;
-        world.money += produit.revenu * produit.quantite * nbProduction;
+        world.score += produit.revenu * produit.quantite * nbProduction * (1 + world.activeangels *  world.angelbonus /100);
+        world.money += produit.revenu * produit.quantite * nbProduction * (1 + world.activeangels *  world.angelbonus /100);
       }
     } 
     // Cas 2 : produit sans manager 
     else {
       if (produit.timeleft != 0) {
-        console.log(produit.timeleft)
-        console.log(tempsEcoule)
         if (produit.timeleft <= tempsEcoule) {
-          console.log("maj")
           //on met a jour le score et la money
           world.score += produit.revenu * produit.quantite;
           world.money += produit.revenu * produit.quantite;
           produit.timeleft = 0;
-          console.log(produit.timeleft)
         } else {
           produit.timeleft -= tempsEcoule;
         }
@@ -98,7 +90,6 @@ function allunlocks(context) {
       }
     })
     if(allunlock.unlocked){
-      console.log("allunlock bonus")
       appliquerBonus(allunlock, context);
     }
   });
@@ -176,6 +167,7 @@ module.exports = {
       } else {
         produit.managerUnlocked = true, 
         manager.unlocked = true,
+        console.log(manager.seuil)
         world.money -= manager.seuil
         saveWorld(context);
       }
@@ -200,6 +192,21 @@ module.exports = {
       }
 
       return cashUpgrade;
+    },
+    resetWorld(parent, args, context) {
+      majScore(context);
+      let world = context.world;
+      let nbanges = Math.floor(150 * Math.sqrt(world.score/Math.pow(10, 15))-world.totalangels);
+      let activeangels = world.activeangels + nbanges;
+      let totalangels = world.totalangels + nbanges;      
+      let score = world.score
+
+      context.world = require("./world");
+      context.world.activeangels = activeangels;
+      context.world.totalangels = totalangels;
+      context.world.score = score;
+      saveWorld(context);
+      return context.world;
     },
   },
 };
