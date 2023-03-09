@@ -2,7 +2,7 @@ module.exports = {
     "name": "Egypte antique",
     "logo": "icones/logoworld.png",
     "money": 0,
-    "score": 10000000000,
+    "score": 100000000000000000000,
     "totalangels": 0,
     "activeangels": 0,
     "angelbonus": 2,
@@ -358,7 +358,7 @@ module.exports = {
     "allunlocks": [
         {
             "name": "Egypte 1", 
-            "logo": "icones/temple.jpg", 
+            "logo": "icones/temple.png", 
             "seuil": 30,
             "idcible": 0,
             "ratio": 2,
@@ -367,7 +367,7 @@ module.exports = {
         },
         {
             "name": "Egypte 2", 
-            "logo": "icones/temple.jpg", 
+            "logo": "icones/temple.png", 
             "seuil": 100,
             "idcible": 0,
             "ratio": 2,
@@ -376,7 +376,7 @@ module.exports = {
         },
         {
             "name": "Egypte 3", 
-            "logo": "icones/temple.jpg", 
+            "logo": "icones/temple.png", 
             "seuil": 300,
             "idcible": 0,
             "ratio": 2,
@@ -385,7 +385,7 @@ module.exports = {
         },
         {
             "name": "Egypte 4", 
-            "logo": "icones/temple.jpg", 
+            "logo": "icones/temple.png", 
             "seuil": 500,
             "idcible": 0,
             "ratio": 2,
@@ -394,7 +394,7 @@ module.exports = {
         },
         {
             "name": "Egypte 5", 
-            "logo": "icones/temple.jpg", 
+            "logo": "icones/temple.png", 
             "seuil": 680,
             "idcible": 0,
             "ratio": 2,
@@ -405,7 +405,7 @@ module.exports = {
     "upgrades": [
         {
             "name": "Papyrus upgrade", 
-            "logo": "icones/papyrus.jpg", 
+            "logo": "icones/papyrus.png", 
             "seuil": 1200,
             "idcible": 1,
             "ratio": 3,
@@ -414,7 +414,7 @@ module.exports = {
         },
         {
             "name": "Chat upgrade", 
-            "logo": "icones/chat.jpg", 
+            "logo": "icones/chat.png", 
             "seuil": 16000,
             "idcible": 2,
             "ratio": 3,
@@ -423,7 +423,7 @@ module.exports = {
         },
         {
             "name": "Batton upgrade", 
-            "logo": "icones/batton.jpg", 
+            "logo": "icones/batton.png", 
             "seuil": 110000,
             "idcible": 3,
             "ratio": 3,
@@ -432,7 +432,7 @@ module.exports = {
         },
         {
             "name": "Oeuil de Ra upgrade", 
-            "logo": "icones/ra.jpg", 
+            "logo": "icones/ra.png", 
             "seuil": 700000,
             "idcible": 4,
             "ratio": 3,
@@ -441,7 +441,7 @@ module.exports = {
         },
         {
             "name": "Isis upgrade", 
-            "logo": "icones/isis.jpg", 
+            "logo": "icones/isis.png", 
             "seuil": 1800000,
             "idcible": 5,
             "ratio": 3,
@@ -450,7 +450,7 @@ module.exports = {
         },
         {
             "name": "Pharaon upgrade", 
-            "logo": "icones/pharaon.jpg", 
+            "logo": "icones/pharaon.png", 
             "seuil": 25000000,
             "idcible": 6,
             "ratio": 3,
@@ -459,7 +459,7 @@ module.exports = {
         },
         {
             "name": "All upgrade", 
-            "logo": "icones/temple.jpg", 
+            "logo": "icones/temple.png", 
             "seuil": 111111111,
             "idcible": 0,
             "ratio": 3,
@@ -517,7 +517,7 @@ module.exports = {
     "managers": [
         {
             "name": "Sekhmet",
-            "logo": "icones/manager-sekhmet.jpg", 
+            "logo": "icones/manager-sekhmet.png", 
             "seuil": 10,
             "idcible": 1,
             "ratio": 0,
@@ -526,7 +526,7 @@ module.exports = {
         },
         {
             "name": "Anuket",
-            "logo": "icones/manager-anuket.jpg", 
+            "logo": "icones/manager-anuket.png", 
             "seuil": 15000,
             "idcible": 2,
             "ratio": 0,
@@ -535,7 +535,7 @@ module.exports = {
         },
         {
             "name": "Anubis",
-            "logo": "icones/manager-anubis.jpg", 
+            "logo": "icones/manager-anubis.png", 
             "seuil": 100000,
             "idcible": 3,
             "ratio": 0,
@@ -544,7 +544,7 @@ module.exports = {
         },
         {
             "name": "Ra",
-            "logo": "icones/manager-ra.jpg", 
+            "logo": "icones/manager-ra.png", 
             "seuil": 500000,
             "idcible": 4,
             "ratio": 0,
@@ -553,7 +553,7 @@ module.exports = {
         },
         {
             "name": "Amon-Rê",
-            "logo": "icones/manager-sun.jpg", 
+            "logo": "icones/manager-sun.png", 
             "seuil": 1200000,
             "idcible": 5,
             "ratio": 0,
@@ -562,7 +562,7 @@ module.exports = {
         },
         {
             "name": "Osiris",
-            "logo": "icones/manager-osiris.jpg", 
+            "logo": "icones/manager-osiris.png", 
             "seuil": 10000000,
             "idcible": 6,
             "ratio": 0,
