@@ -30,11 +30,10 @@ export default function UnlockComponent({world, money, showUnlocks, onCloseUnloc
     }, [showUnlocks]);
 
     const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-        return;
-    }
-
-    setOpen(false);
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
     };
 
   const action = (
@@ -50,9 +49,6 @@ export default function UnlockComponent({world, money, showUnlocks, onCloseUnloc
     </React.Fragment>
   );
   
-    useEffect(() => {
-        console.log(world.allunlocks)
-    }, []);
 
     function close() {
         setShow(!show)
@@ -66,21 +62,20 @@ export default function UnlockComponent({world, money, showUnlocks, onCloseUnloc
                     <h1 className="title">Unlockssss !</h1>
                     <div>
                         <div className='allUnlocks'>
-                            <div className='headerUnlock'><img src={world.allunlocks[0].logo} /> <h2>Les unlocks globaux</h2></div>
+                            <div className='headerUnlock'><img src={"http://localhost:4000/"+world.allunlocks[0].logo} /> <h2>Les unlocks globaux</h2></div>
                             <ul>
-                            {world.allunlocks.map(unlock => ( !unlock.unlocked &&
+                            {world.allunlocks.map(unlock => ( 
                                 <li key={unlock.idcible}>
                                     <h3>{unlock.name}</h3>
                                     <p>{unlock.seuil}</p>
                                     {unlock.typeratio} x{unlock.ratio}
-
                                 </li>
                             ))}
                             </ul>
                         </div>
                         {world.products.map(product => (
                             <div key={product.id}>
-                                <div className='headerUnlock'><img src={product.logo} /><h2>{product.name}</h2></div>
+                                <div className='headerUnlock'><img src={"http://localhost:4000/"+product.logo} /><h2>{product.name}</h2></div>
                                 <ul>
                                 {product.paliers.map(palier => ( !palier.unlocked &&
                                     <li>

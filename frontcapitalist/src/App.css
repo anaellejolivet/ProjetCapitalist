@@ -111,3 +111,15 @@ grid-template-columns: 20% 80%;
   align-items: center;
 
  }
+
+ .worldImg{
+  width: 100px;
+ }
+
+ .menu_buttons{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: 30px;
+ }

@@ -23,8 +23,9 @@ type ProductProps = {
 // export default function ProductComponent({product, onProductionDone, services} : ProductProps) { 
 export default function ProductComponent({product, onProductBuy, onProductionDone, qtmulti, worldmoney, username} : ProductProps) { 
 
-    const [quantite, setQuantite] = useState(product.quantite);
     const [run, setRun] = useState(false);
+    
+    // METTRE LASTUPDATE EN USEREF
     const [lastupdate, setLastUpdate] = useState(Date.now());
     useInterval(() => calcScore(), 100)
 
@@ -53,8 +54,12 @@ export default function ProductComponent({product, onProductBuy, onProductionDon
         let maxCanBuy = calcMaxCanBuy()
 
         if ( (qtmulti == "Max" && maxCanBuy == 0) || (qtmulti !== "Max" && maxCanBuy < parseInt(qtmulti.substring(1))) ) {
-            montant = "Not enough money"
-
+            if (qtmulti == "Max"){
+                montant = "Not enough money - " +transform(devis(product,calcMaxCanBuy()))
+            }
+            else{
+                montant = "Not enough money - " +transform(devis(product, parseInt(qtmulti.substring(1))))
+            }
         }else{
             if (qtmulti == "Max"){
                 montant = transform(devis(product,calcMaxCanBuy()))
@@ -86,7 +91,13 @@ export default function ProductComponent({product, onProductBuy, onProductionDon
     
     function buyProduct() {
         // console.log(product.revenu)
-        // console.log(product.vitesse)
+        console.log(product.vitesse)
+        console.log("GAIN  :  " + product.revenu)
+
+        console.log("cout = " + product.cout)
+        console.log("money = " + worldmoney)
+
+        
 
         let maxCanBuy = calcMaxCanBuy()
 
@@ -128,6 +139,8 @@ export default function ProductComponent({product, onProductBuy, onProductionDon
 
     function calcScore(): void {
 
+        console.log(worldmoney)
+
         if (product.timeleft !== 0) {
             product.timeleft = product.timeleft - (Date.now() - lastupdate)
             setLastUpdate(Date.now())
@@ -152,7 +165,7 @@ export default function ProductComponent({product, onProductBuy, onProductionDon
         <div className="product">
 
             <div className='p_firstSection'>
-                <img src={oeil} width='55px' onClick={produceProduct} />
+                <img src={"http://localhost:4000/"+ product.logo} width='55px' onClick={produceProduct} />
                 <div><p>{product.quantite}</p></div>
             </div>
             

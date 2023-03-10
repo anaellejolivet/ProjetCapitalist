@@ -18,7 +18,6 @@ type ManagerProps = {
     showManagers: boolean
     onCloseManager: () => void
     onManagerHired: (manager: Pallier) => void
-
 }
 
 
@@ -63,7 +62,7 @@ export default function ManagerComponent({world, money, showManagers, onCloseMan
     function hireManager(manager: Pallier) {
         if (manager.seuil <= money) {
             onManagerHired(manager)
-            setOpen(true);
+            //setOpen(true);
         }
     }
 
@@ -84,7 +83,7 @@ export default function ManagerComponent({world, money, showManagers, onCloseMan
                             <div>
                                 <div className="logo">
                                     {/* <img alt="manager logo" className="round" src= {props.services.server + manager.logo} /> */}
-                                    <img alt="manager logo" className="round" src= {"truc"} />
+                                    <img alt="manager logo" className="round" src= {"http://localhost:4000/"+manager.logo} />
                                 </div>
                             </div>
                             <div className="infosmanager">

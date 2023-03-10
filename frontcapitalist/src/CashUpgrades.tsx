@@ -27,17 +27,17 @@ export default function CashUpgradesComponent({world, money, showUpgrades, onClo
     const [show, setShow] = useState(showUpgrades);
     const [open, setOpen] = React.useState(false);
 
+
     useEffect(() => {
-        console.log("loead Unlock")
         setShow(showUpgrades);
     }, [showUpgrades]);
 
     const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-        return;
-    }
+        if (reason === 'clickaway') {
+            return;
+        }
 
-    setOpen(false);
+        setOpen(false);
     };
 
     const action = (
