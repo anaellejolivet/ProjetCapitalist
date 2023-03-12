@@ -1,0 +1,31 @@
+
+.headerUnlock{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.headerUnlock * {
+    padding: 12px;
+}
+
+.listUnlock{
+    width: 90%;
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    flex-wrap: wrap;
+    margin: 2%;
+}
+
+.listUnlock > div{
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    border-radius: 2%;
+}
+
+.listUnlock > div:hover{
+    background-color: #4242426c;
+}

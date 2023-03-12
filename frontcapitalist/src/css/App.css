@@ -1,0 +1,222 @@
+ /* Couleurs */
+
+ :root {
+  --couleur-principale: #eeb63c;
+  --couleur-secondaire: #3c3c3c;
+  --couleur-fond: #f5f5f5;
+}
+
+/* Styles généraux */
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: var(--couleur-secondaire);
+  background-color: var(--couleur-fond);
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: 20% 80%; 
+}
+
+.jeu {
+  display: flex;
+  flex-direction: row;
+  grid-template-columns: 1fr 1fr; 
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--couleur-secondaire); 
+  border-radius: 50px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--couleur-principale);
+  border-radius: 50px; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+/*================================*/
+/* ~~~~~~~~~~ PLAYER ~~~~~~~~~~  */
+/*================================*/
+
+.player{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--couleur-principale);
+}
+
+input[type=text] {
+  border: none;
+  border-bottom: 2px solid rgb(25, 21, 21);
+  width: fit-content;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  text-align: center;
+  margin-left: 10px;
+  background-color: #eeb63c;
+}
+
+input[type=text]:focus {
+  border: 2px solid #555;
+}
+
+.player h5{
+  margin-bottom: 0;
+}
+
+/*================================*/
+/* ~~~~~~~~~~ DASHBOARD ~~~~~~~~~~ */
+/*================================*/
+
+.dashboard{
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: var(--couleur-secondaire);
+  color: #eeb63cb9;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.dashboard div{
+  width: 30%;
+  display: flex;
+  justify-content: center;
+}
+
+.dashboard div:first-child{
+  margin-bottom: 20px;
+
+  position: relative;
+}
+
+
+
+.dashboard div:first-child h4{
+  color: var(--couleur-fond);
+  position: absolute;
+  bottom: -30px;
+}
+
+.imgMoney{
+  width: 40px;
+  height: 40px;
+  margin-left: 10px;
+}
+
+.money{
+  display: flex;
+  align-items: center;
+}
+
+.qtBuy {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #fff;
+  background-color: #8c1919;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
+  width: 200px;
+}
+
+.qtBuy:hover {
+  transform: translateY(-7px);
+  border-radius: 10px;
+  background-color: #710303;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.qtBuy:active {
+  transform: translateY(0px);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/*================================*/
+/* ~~~~~~~~~~ MENU BUTTON ~~~~~~~~~~ */
+/*================================*/
+
+.menu_buttons{
+  width: 10%;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+  background-size: contain;
+}
+
+ .menuImg{
+    width: 50px;
+ }
+
+/*================================*/
+/* ~~~~~~~~~~ MODALS ~~~~~~~~~~ */
+/*================================*/
+
+.modal {
+  position: fixed; /* reste en place */
+  z-index: 2; /* au dessus du reste */
+  width: 50%; /* largeur */
+  height: 70%; /* hauteur */
+  overflow: auto; /* barre de scroll si besoin */
+  background-color: rgba(255, 255, 255, 0.949); /* opaque */
+  border: solid;
+  border-radius: 2%;
+  top:10%; 
+  left:25%;
+ }
+
+ .Button .closebutton{
+    position: relative;
+    margin: 222px;
+ }
+
+
+
+
+
+
+
+
+
+
+
+ .worldImg{
+  width: 100px;
+ }
+
+ .menu_buttons{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: 30px;
+ }
+
+
+

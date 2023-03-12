@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import './App.css';
+import './css/App.css';
 import {Pallier, Product, World} from './world'
 import {devis, transform} from './utils'
 import ProductComponent from './Product';
@@ -32,20 +32,7 @@ export default function Main({ loadworld, username } : MainProps) {
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        // Code de l'ennoncé :
-        console.log("avant : : : : : : : : "+ money) // affiche la bonne valeur (càd l'argent décrementé du montant de l'achat)
-
         setWorld(JSON.parse(JSON.stringify(loadworld)) as World)
-
-        console.log("apres : : : : : : : : "+(JSON.parse(JSON.stringify(loadworld)) as World).money) // affiche de la money au chargement de la page
-        // Ex : quand on crée un nouveau joueur ("Jean"), on lance manuelement des productions pour obtenir un total d'argent de 20$
-        // si on achete un produit qui coute 4, normalement, notre money sera de 16$ (et c'est ce qu'affiche mon premier console.log "avant")
-        // or, le world va être à nouveau generé à partir de loadworld qui lui n'a pas changé de valeur.
-        // mon deuxieme console.log "apres" va donc afficher 0 et donc l'argent affiché sera 0
-        // Ex 2 : si je change de joueur et reviens sur "Jean", tout aura été mis à jour avec les bonnes données car les données auront été recuperées 
-        // du backend qui a été appelé et qui s'est executé correctement.
-        // Si on effectue les même actions qu'à mon premier exemple, le money affiché sera 16$, la valeur du money au chargement
-
     }, [loadworld])
 
 
@@ -83,7 +70,6 @@ export default function Main({ loadworld, username } : MainProps) {
             mutation AcheterQtProduit($acheterQtProduitId: Int!, $quantite: Int!) {
                 acheterQtProduit(id: $acheterQtProduitId, quantite: $quantite) {
                     id
-                    quantite
                 }
             }`
 
@@ -159,16 +145,6 @@ export default function Main({ loadworld, username } : MainProps) {
         console.log("****************** Appel au back *************************")
         // En commentant cette ligne le front fonctionne mais perte de persistance
         achatProduit({ variables: { acheterQtProduitId: product.id, quantite: qt } })
-        
-
-        // console.log("cout = " + product.cout)
-        // console.log("money = " + world.money)
-        // console.log("quantite produit = "+ product.quantite)
-        // console.log("quantite acheté = "+ qt)
-        // console.log("Vitesse = " + product.vitesse )
-
-        // console.log("money = " + world.money)
-        // console.log("money = " + money)
 
         world.products.forEach(product => {
             product.paliers.forEach(palier =>{
@@ -203,9 +179,7 @@ export default function Main({ loadworld, username } : MainProps) {
                 if (allGood) {
                     unlock.unlocked = true
                     setMessageSnackBar(unlock.name + " ! ==> "+ unlock.typeratio + " x" + unlock.ratio)
-                    
-                    //setOpen(true)
-                    
+                    setOpen(true)
                 }
             }
 
@@ -293,11 +267,9 @@ export default function Main({ loadworld, username } : MainProps) {
         <div className="main">
 
             <div className='dashboard'>
-                <div> {loadworld.name} <img className='worldImg' src={"http://localhost:4000/" + loadworld.logo} /> </div> 
-                <div className='money'> Logo Argent :
-                <span dangerouslySetInnerHTML={{__html: transform(world.money)}}></span>
-                </div>
-                <div><button onClick={switchQtMulti}>{qtmulti}</button>  </div> 
+                <div>  <img className='worldImg' src={"http://localhost:4000/" + loadworld.logo} /> <h4>{loadworld.name}</h4> </div> 
+                <div className='money'> <h4 dangerouslySetInnerHTML={{__html: transform(world.money)}}></h4> <img className='imgMoney' src={"http://localhost:4000/icones/money.png"}  /></div>
+                <div><button className='qtBuy' onClick={switchQtMulti}>{qtmulti}</button>  </div> 
             </div>
 
             <div className='jeu'>

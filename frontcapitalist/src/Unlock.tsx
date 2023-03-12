@@ -1,4 +1,6 @@
-import './App.css';
+import './css/App.css';
+import './css/Unlock.css';
+
 import {Pallier, Product, World} from './world';
 import MyProgressbar, { Orientation} from './MyProgressbar';
 import oeil from './images/oeil-de-ra.png'
@@ -22,12 +24,12 @@ type UnlockProps = {
 
 export default function UnlockComponent({world, money, showUnlocks, onCloseUnlock} : UnlockProps) { 
 
-    const [show, setShow] = useState(showUnlocks);
-    const [open, setOpen] = React.useState(false);
-
     useEffect(() => {
         setShow(showUnlocks);
     }, [showUnlocks]);
+
+    const [show, setShow] = useState(showUnlocks);
+    const [open, setOpen] = React.useState(false);
 
     const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
@@ -36,64 +38,62 @@ export default function UnlockComponent({world, money, showUnlocks, onCloseUnloc
         setOpen(false);
     };
 
-  const action = (
-    <React.Fragment>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
-  );
-  
-
+    const action = (
+        <React.Fragment>
+        <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleClose}
+        >
+            <CloseIcon fontSize="small" />
+        </IconButton>
+        </React.Fragment>
+    );
+    
     function close() {
         setShow(!show)
         onCloseUnlock()
-    }
+    };
 
     return (
-        <div> { show &&
-            <div className="modal">
+        <div className="modal"> { show &&
+            <div>
+                <h1 className="title">Unlockssss !</h1>
                 <div>
-                    <h1 className="title">Unlockssss !</h1>
-                    <div>
-                        <div className='allUnlocks'>
-                            <div className='headerUnlock'><img src={"http://localhost:4000/"+world.allunlocks[0].logo} /> <h2>Les unlocks globaux</h2></div>
-                            <ul>
-                            {world.allunlocks.map(unlock => ( 
-                                <li key={unlock.idcible}>
+                    <div className='allUnlocks unlock'>
+                        <div className='headerUnlock'><img className='menuImg' src={"http://localhost:4000/"+world.allunlocks[0].logo} /> <h2>Les unlocks globaux</h2></div>
+                        
+                        <div className='listUnlock'>
+                            {world.allunlocks.map(unlock => (  !unlock.unlocked &&
+                                <div>
                                     <h3>{unlock.name}</h3>
-                                    <p>{unlock.seuil}</p>
+                                    <h2>{unlock.seuil}</h2>
                                     {unlock.typeratio} x{unlock.ratio}
-                                </li>
+                                </div>
                             ))}
-                            </ul>
+
                         </div>
-                        {world.products.map(product => (
-                            <div key={product.id}>
-                                <div className='headerUnlock'><img src={"http://localhost:4000/"+product.logo} /><h2>{product.name}</h2></div>
-                                <ul>
+
+                    </div>
+                    {world.products.map(product => (
+                        <div className='unlock' key={product.id}>
+                            <div className='headerUnlock'><img className='menuImg' src={"http://localhost:4000/"+product.logo} /><h2>{product.name}</h2></div>
+                            <div className='listUnlock'>
                                 {product.paliers.map(palier => ( !palier.unlocked &&
-                                    <li>
-                                        <div className='unlock'>
+                                    <div>
+                                        <div>
                                             <h3>{palier.name} </h3>
                                         </div>
 
                                         <h2>{palier.seuil}</h2>
                                         {palier.typeratio} x{palier.ratio}                                        
-                                    </li>
+                                    </div>
                                 ))}
-                                </ul>
                             </div>
-                        ))}
-                        <Button className="closebutton"  onClick={close} >Close</Button>
-
-
-                    </div>
+                        </div>
+                    ))}
+                    <Button className="closebutton" color='error' onClick={close} >Close</Button>
                 </div>
             </div>
         } </div>

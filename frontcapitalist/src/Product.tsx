@@ -1,4 +1,5 @@
-import './App.css';
+import './css/App.css';
+import './css/Product.css';
 import {Product} from './world';
 import MyProgressbar, { Orientation} from './MyProgressbar';
 import oeil from './images/oeil-de-ra.png'
@@ -14,7 +15,6 @@ type ProductProps = {
     product: Product
     onProductionDone: (product: Product) => void,
     onProductBuy: (qt: number, product: Product) => void,
-    //services: Services
     qtmulti: string
     worldmoney: number
     username: string
@@ -43,11 +43,6 @@ export default function ProductComponent({product, onProductBuy, onProductionDon
             }
         }
     )
-
-    useEffect(() => {
-
-      }, []);
-           
 
     function prixAfficher(): String{
         let montant
@@ -84,9 +79,11 @@ export default function ProductComponent({product, onProductBuy, onProductionDon
     }
     
     function produceProduct(){
-        setRun(true)
-        product.timeleft = product.vitesse
-        setLastUpdate(Date.now())
+        if(product.timeleft == 0 && product.quantite > 0){
+            setRun(true)
+            product.timeleft = product.vitesse
+            setLastUpdate(Date.now())
+        }
     }
     
     function buyProduct() {
@@ -170,10 +167,11 @@ export default function ProductComponent({product, onProductBuy, onProductionDon
             </div>
             
             <div className='p_secondSection'>
+                <h2>{product.name}</h2>
                 { product.quantite > 0 && 
                     <MyProgressbar className="barstyle" vitesse={product.vitesse}
                     initialvalue={product.vitesse - product.timeleft}
-                    run={run} frontcolor="#ff8400" backcolor="#feffff"
+                    run={run} frontcolor="#eeb63c" backcolor="#3c3c3c"
                     auto={product.managerUnlocked}
                     orientation={Orientation.horizontal} />
                 }           

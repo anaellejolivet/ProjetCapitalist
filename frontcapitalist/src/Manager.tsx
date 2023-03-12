@@ -1,4 +1,5 @@
-import './App.css';
+import './css/App.css';
+import './css/Manager.css';
 import {Pallier, Product, World} from './world';
 import MyProgressbar, { Orientation} from './MyProgressbar';
 import oeil from './images/oeil-de-ra.png'
@@ -62,7 +63,6 @@ export default function ManagerComponent({world, money, showManagers, onCloseMan
     function hireManager(manager: Pallier) {
         if (manager.seuil <= money) {
             onManagerHired(manager)
-            //setOpen(true);
         }
     }
 
@@ -72,8 +72,8 @@ export default function ManagerComponent({world, money, showManagers, onCloseMan
     }
 
     return (
-        <div> { show &&
-            <div className="modal">
+        <div className="modal"> { show &&
+            <div >
                 <div>
                     <h1 className="title">Managers make you feel better !</h1>
                 </div>
@@ -82,14 +82,13 @@ export default function ManagerComponent({world, money, showManagers, onCloseMan
                         <div key={manager.idcible} className="managergrid">
                             <div>
                                 <div className="logo">
-                                    {/* <img alt="manager logo" className="round" src= {props.services.server + manager.logo} /> */}
-                                    <img alt="manager logo" className="round" src= {"http://localhost:4000/"+manager.logo} />
+                                    <img alt="manager logo" className="round menuImg" src= {"http://localhost:4000/"+manager.logo} />
                                 </div>
                             </div>
                             <div className="infosmanager">
-                                <div className="managername"> { manager.name} </div>
-                                <div className="managercible"> {world.products[manager.idcible-1].name } </div>
-                                <div className="managercost"> { manager.seuil} </div>
+                                <div className="managername"> <h3>{ manager.name}</h3> </div>
+                                <div className="managercost"> <h3>{ manager.seuil}</h3> <img className='imgMoney' src={"http://localhost:4000/icones/money.png"}/> </div>
+                                <div className="managercible"> <h5>{world.products[manager.idcible-1].name }</h5> </div>
                             </div>
                             <div>
                                 <Button disabled={world.money < manager.seuil} onClick={() => hireManager(manager)}> Hire !</Button>
@@ -103,7 +102,7 @@ export default function ManagerComponent({world, money, showManagers, onCloseMan
                             </div>
                         </div>
                     )}
-                    <Button className="closebutton"  onClick={close} >Close</Button>
+                    <Button className="closebutton" color='error' onClick={close} >Close</Button>
 
 
                 </div>

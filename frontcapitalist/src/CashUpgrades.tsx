@@ -1,4 +1,6 @@
-import './App.css';
+import './css/App.css';
+import './css/CashUpgrades.css';
+
 import {Pallier, Product, World} from './world';
 import MyProgressbar, { Orientation} from './MyProgressbar';
 import oeil from './images/oeil-de-ra.png'
@@ -24,13 +26,12 @@ type CashUpgradesProps = {
 
 export default function CashUpgradesComponent({world, money, showUpgrades, onCloseCashUpgrades, onUpgradeBought} : CashUpgradesProps) { 
 
-    const [show, setShow] = useState(showUpgrades);
-    const [open, setOpen] = React.useState(false);
-
-
     useEffect(() => {
         setShow(showUpgrades);
     }, [showUpgrades]);
+    
+    const [show, setShow] = useState(showUpgrades);
+    const [open, setOpen] = React.useState(false);
 
     const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
@@ -66,29 +67,25 @@ export default function CashUpgradesComponent({world, money, showUpgrades, onClo
     }
 
     return (
-        <div> { show &&
-            <div className="modal">
+        <div className="modal"> { show &&
+            <div>
+                <h1 className="title">Cash Upgraaades !</h1>
                 <div>
-                    <h1 className="title">Cash Upgraaades !</h1>
-                    <div>
-                        <div className='allUnlocks'>
-                            {world.upgrades.map(upgd => (
-                                <div className='upgrades'>
-                                    <img src={upgd.logo}/>
-                                    <div>
-                                        <p>{upgd.name}</p>
-                                        <h3>{upgd.seuil}</h3>
-                                        <p>{world.products[upgd.idcible]?.name ? world.products[upgd.idcible].name : "Tout les produits"} {upgd.typeratio} x{upgd.ratio}</p>
-                                    </div>
-                                    <Button disabled={world.money < upgd.seuil} onClick={() => onBuyUpgrade(upgd) } >Buy !</Button>
+                    <div className='allUnlocks'>
+                        {world.upgrades.map(upgd => (
+                            <div className='upgrades'>
+                                <img className='menuImg' src={"http://localhost:4000/" +upgd.logo}/>
+                                <div>
+                                    <p>{upgd.name}</p>
+                                    <h3>{upgd.seuil}</h3>
+                                    <p>{world.products[upgd.idcible]?.name ? world.products[upgd.idcible].name : "Tout les produits"} {upgd.typeratio} x{upgd.ratio}</p>
                                 </div>
+                                <Button disabled={world.money < upgd.seuil} onClick={() => onBuyUpgrade(upgd) } >Buy !</Button>
+                            </div>
 
-                            ))}
-                        </div>
-                        <Button className="closebutton"  onClick={close} >Close</Button>
-
-
+                        ))}
                     </div>
+                    <Button className="closebutton" color='error' onClick={close} >Close</Button>
                 </div>
             </div>
         } </div>

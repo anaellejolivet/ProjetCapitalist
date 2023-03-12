@@ -1,5 +1,5 @@
 import {ChangeEvent, useEffect, useState} from 'react';
-import './App.css';
+import './css/App.css';
 import { gql, useApolloClient, useQuery } from '@apollo/client';
 import Main from './Main';
 
@@ -115,7 +115,7 @@ function App() {
   return (
     <div className="App">
       <div className='player'>
-          ID du joueur :
+          <h5>Joueur </h5>
           <input type="text" value={username} onChange={onUserNameChanged}/>
       </div>
       { corps }
@@ -133,4 +133,3 @@ export default App;
 //    Pour timeleft faire un usestate, ne pas changer 
 //    Si les unlocks sont trop nombreux, vous pouvez choisir de n’afficher que les n premiers, ou de n’afficher que le prochain seuil associé à chaque produit.
 //    Fermer la fenetre des unlocks si on ouvre la fenetre des managers et inversement
-//    Quand j'atteins le premier all unlock ma liste des unlocks bug
