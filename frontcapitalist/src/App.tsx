@@ -133,3 +133,4 @@ export default App;
 //    Pour timeleft faire un usestate, ne pas changer 
 //    Si les unlocks sont trop nombreux, vous pouvez choisir de n’afficher que les n premiers, ou de n’afficher que le prochain seuil associé à chaque produit.
 //    Fermer la fenetre des unlocks si on ouvre la fenetre des managers et inversement
+//    Problème de persistance, le back et le front ne font pas la mm chose (check les unlocks de vitesse)

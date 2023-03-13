@@ -6,7 +6,7 @@ import ProductComponent from './Product';
 import ManagerComponent from './Manager';
 import { gql, useMutation } from '@apollo/client';
 import UnlockComponent from './Unlock';
-import { Button, IconButton } from '@mui/material';
+import { Badge, Button, IconButton } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import CloseIcon from '@mui/icons-material/Close';
 import CashUpgradesComponent from './CashUpgrades';
@@ -30,10 +30,39 @@ export default function Main({ loadworld, username } : MainProps) {
     const [showUnlocks, setShowUnlocks] = useState(false);
     const [showUpgrades, setShowUpgrades] = useState(false);
     const [open, setOpen] = useState(false);
+    const [badgeManager, setBadgeManager] = useState(0);
+    const [badgeUpgrade, setBadgeUpgrade] = useState(0);
 
+    
     useEffect(() => {
         setWorld(JSON.parse(JSON.stringify(loadworld)) as World)
     }, [loadworld])
+
+    useEffect(() => {
+
+        // ~~~ Mise à jour des badges ~~~ 
+
+        // Badges Manager
+        setBadgeManager(prevBadgeManager => prevBadgeManager - prevBadgeManager); // Mettre à jour la valeur de badgeManager
+        world.managers.forEach(manager => {
+            if (world.money < manager.seuil) {
+                return
+            }else if(!manager.unlocked && manager.seuil <= world.money){
+                setBadgeManager(prevBadgeManager => prevBadgeManager + 1); // Mettre à jour la valeur de badgeManager
+            }
+        });
+
+        // Badges Upgrades
+        setBadgeUpgrade(prevBadgeUpgrade => prevBadgeUpgrade - prevBadgeUpgrade); // Mettre à jour la valeur de badgeManager
+        world.upgrades.forEach(upgrade => {
+            if (world.money < upgrade.seuil) {
+                return
+            }else if(!upgrade.unlocked && upgrade.seuil <= world.money){
+                setBadgeUpgrade(prevBadgeUpgrade => prevBadgeUpgrade + 1); // Mettre à jour la valeur de badgeManager
+            }
+        });
+
+    }, [money])
 
 
     // ------ SNACKBAR ---------------------------------------------
@@ -274,15 +303,20 @@ export default function Main({ loadworld, username } : MainProps) {
 
             <div className='jeu'>
                 <div className='menu_buttons'>
-                    <h2>Menu</h2>              
-                    <Button onClick={() => setShowManagers(!showManagers)}>{showManagers ? 'Hide Managers' : 'Show Managers'}</Button>
+                    <h2>Menu</h2>
+                    <Badge badgeContent={badgeManager} color="primary">
+                        <Button onClick={() => setShowManagers(!showManagers)}>{showManagers ? 'Hide Managers' : 'Show Managers'}</Button>
+                    </Badge>
                     {showManagers && <ManagerComponent world={world} money={world.money} showManagers={showManagers} onCloseManager={onCloseManager} onManagerHired={onManagerHired} />}
                     
                     <Button onClick={() => setShowUnlocks(!showUnlocks)}>{showUnlocks ? 'Hide Unlocks' : 'Show Unlocks'}</Button>
-                    {showUnlocks && <UnlockComponent world={world} money={world.money} showUnlocks={showUnlocks} onCloseUnlock={onCloseUnlock} />}
 
+                    {showUnlocks && <UnlockComponent world={world} money={world.money} showUnlocks={showUnlocks} onCloseUnlock={onCloseUnlock} />}
+                    
+                    <Badge badgeContent={badgeUpgrade} color="primary">             
                     <Button onClick={() => setShowUpgrades(!showUpgrades)}>{showUpgrades ? 'Hide Upgrades' : 'Show Upgrades'}</Button>
                     {showUpgrades && <CashUpgradesComponent world={world} money={world.money} showUpgrades={showUpgrades} onCloseCashUpgrades={onCloseCashUpgrades} onUpgradeBought={onUpgradeBought} />}
+                    </Badge>
 
                 </div>
 
