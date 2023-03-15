@@ -193,6 +193,25 @@ module.exports = {
 
       return cashUpgrade;
     },
+    acheterAngelUpgrade(parent, args, context) {
+      majScore(context);
+      let world = context.world;
+      let angelUpgradeName = args.name;
+
+      let angelUpgrade = world.angelupgrades.find((u) => u.name === angelUpgradeName);
+
+      if (angelUpgrade === undefined) {
+        throw new Error(`L'angel update avec le nom ${args.name} n'existe pas`);
+      } else {
+        angelUpgrade.unlocked = true;
+        world.money -= angelUpgrade.seuil;
+        //on applique le bonus de l'upgrade
+        appliquerBonus(angelUpgrade, context);
+        saveWorld(context);
+      }
+
+      return angelUpgrade;
+    },
     resetWorld(parent, args, context) {
       majScore(context);
       let world = context.world;

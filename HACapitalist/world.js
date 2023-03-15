@@ -2,7 +2,7 @@ module.exports = {
     "name": "Egypte antique",
     "logo": "icones/logoworld.png",
     "money": 0,
-    "score": 100000000000000000000,
+    "score": 0,
     "totalangels": 0,
     "activeangels": 0,
     "angelbonus": 2,
@@ -60,6 +60,15 @@ module.exports = {
                     "name": "Papyrus 5", 
                     "logo": "icones/papyrus.png", 
                     "seuil": 550,
+                    "idcible": 1,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Papyrus 6", 
+                    "logo": "icones/papyrus.png", 
+                    "seuil": 1000,
                     "idcible": 1,
                     "ratio": 2,
                     "typeratio": "vitesse",
@@ -123,6 +132,15 @@ module.exports = {
                     "ratio": 2,
                     "typeratio": "vitesse",
                     "unlocked": false
+                },
+                {
+                    "name": "Chat 6", 
+                    "logo": "icones/chat.png",  
+                    "seuil": 1000,
+                    "idcible": 1,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
                 }]
         },
         {
@@ -177,6 +195,15 @@ module.exports = {
                     "name": "Batton 5", 
                     "logo": "icones/batton.png",  
                     "seuil": 550,
+                    "idcible": 1,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Batton 6", 
+                    "logo": "icones/batton.png",  
+                    "seuil": 1000,
                     "idcible": 1,
                     "ratio": 2,
                     "typeratio": "vitesse",
@@ -238,6 +265,15 @@ module.exports = {
                     "ratio": 2,
                     "typeratio": "vitesse",
                     "unlocked": false
+                },
+                {
+                    "name": "Oeuil de Ra 6", 
+                    "logo": "icones/ra.png",  
+                    "seuil": 1000,
+                    "idcible": 1,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
                 }]
         },
         {
@@ -291,6 +327,15 @@ module.exports = {
                     "name": "Isis 5", 
                     "logo": "icones/isis.png", 
                     "seuil": 550,
+                    "idcible": 1,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
+                },
+                {
+                    "name": "Isis 6", 
+                    "logo": "icones/isis.png", 
+                    "seuil": 1000,
                     "idcible": 1,
                     "ratio": 2,
                     "typeratio": "vitesse",
@@ -352,6 +397,15 @@ module.exports = {
                     "ratio": 2,
                     "typeratio": "vitesse",
                     "unlocked": false
+                },
+                {
+                    "name": "Pharaon 6", 
+                    "logo": "icones/pharaon.png", 
+                    "seuil": 1000,
+                    "idcible": 1,
+                    "ratio": 2,
+                    "typeratio": "vitesse",
+                    "unlocked": false
                 }]
         }
     ],
@@ -396,6 +450,15 @@ module.exports = {
             "name": "Egypte 5", 
             "logo": "icones/temple.png", 
             "seuil": 680,
+            "idcible": 0,
+            "ratio": 2,
+            "typeratio": "gain",
+            "unlocked": false
+        },
+        {
+            "name": "Egypte 6", 
+            "logo": "icones/temple.png", 
+            "seuil": 1000,
             "idcible": 0,
             "ratio": 2,
             "typeratio": "gain",
@@ -480,7 +543,7 @@ module.exports = {
         {
             "name": "Sphynx 2",
             "logo": "icones/sphynx.png",
-            "seuil": 10,
+            "seuil": 1000,
             "idcible": 0,
             "ratio": 3,
             "typeratio": "gain",
@@ -489,7 +552,7 @@ module.exports = {
         {
             "name": "Sphynx 3",
             "logo": "icones/sphynx.png",
-            "seuil": 10,
+            "seuil": 100000,
             "idcible": 0,
             "ratio": 3,
             "typeratio": "gain",
@@ -498,7 +561,7 @@ module.exports = {
         {
             "name": "Sphynx 4",
             "logo": "icones/sphynx.png",
-            "seuil": 10,
+            "seuil": 1000000000,
             "idcible": 0,
             "ratio": 3,
             "typeratio": "gain",
@@ -507,12 +570,21 @@ module.exports = {
         {
             "name": "Sphynx 5",
             "logo": "icones/sphynx.png",
-            "seuil": 10,
+            "seuil": 100000000000,
             "idcible": 0,
             "ratio": 3,
             "typeratio": "gain",
             "unlocked": false
         },
+        {
+            "name": "Sphynx 6",
+            "logo": "icones/sphynx.png",
+            "seuil": 1000000000000,
+            "idcible": 0,
+            "ratio": 3,
+            "typeratio": "gain",
+            "unlocked": false
+        }
     ],
     "managers": [
         {
