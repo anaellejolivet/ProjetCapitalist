@@ -145,8 +145,8 @@ module.exports = {
         },
         {
             "id": 3,
-            "name": "Batton",
-            "logo": "icones/batton.png", 
+            "name": "Baton",
+            "logo": "icones/baton.png", 
             "cout": 720,
             "croissance": 1.14,
             "revenu": 540,
@@ -156,8 +156,8 @@ module.exports = {
             "managerUnlocked": false, 
             "paliers": [
                 {
-                    "name": "Batton 1", 
-                    "logo": "icones/batton.png", 
+                    "name": "Baton 1", 
+                    "logo": "icones/baton.png", 
                     "seuil": 20,
                     "idcible": 3,
                     "ratio": 2,
@@ -165,8 +165,8 @@ module.exports = {
                     "unlocked": false
                 }, 
                 {
-                    "name": "Batton 2", 
-                    "logo": "icones/batton.png", 
+                    "name": "Baton 2", 
+                    "logo": "icones/baton.png", 
                     "seuil": 75,
                     "idcible": 3,
                     "ratio": 2,
@@ -174,8 +174,8 @@ module.exports = {
                     "unlocked": false
                 },
                 {
-                    "name": "Batton 3", 
-                    "logo": "icones/batton.png", 
+                    "name": "Baton 3", 
+                    "logo": "icones/baton.png", 
                     "seuil": 150,
                     "idcible": 1,
                     "ratio": 2,
@@ -183,8 +183,8 @@ module.exports = {
                     "unlocked": false
                 },
                 {
-                    "name": "Batton 4", 
-                    "logo": "icones/batton.png", 
+                    "name": "Baton 4", 
+                    "logo": "icones/baton.png", 
                     "seuil": 300,
                     "idcible": 1,
                     "ratio": 2,
@@ -192,8 +192,8 @@ module.exports = {
                     "unlocked": false
                 },
                 {
-                    "name": "Batton 5", 
-                    "logo": "icones/batton.png",  
+                    "name": "Baton 5", 
+                    "logo": "icones/baton.png",  
                     "seuil": 550,
                     "idcible": 1,
                     "ratio": 2,
@@ -201,8 +201,8 @@ module.exports = {
                     "unlocked": false
                 },
                 {
-                    "name": "Batton 6", 
-                    "logo": "icones/batton.png",  
+                    "name": "Baton 6", 
+                    "logo": "icones/baton.png",  
                     "seuil": 1000,
                     "idcible": 1,
                     "ratio": 2,
@@ -212,7 +212,7 @@ module.exports = {
         },
         {
             "id": 4,
-            "name": "Oeuil de Ra",
+            "name": "Oeil de Ra",
             "logo": "icones/ra.png", "cout": 8640,
             "croissance": 1.13,
             "revenu": 4320,
@@ -222,7 +222,7 @@ module.exports = {
             "managerUnlocked": false, 
             "paliers": [
                 {
-                    "name": "Oeuil de Ra 1", 
+                    "name": "Oeil de Ra 1", 
                     "logo": "icones/ra.png", 
                     "seuil": 20,
                     "idcible": 4,
@@ -231,7 +231,7 @@ module.exports = {
                     "unlocked": false
                 }, 
                 {
-                    "name": "Oeuil de Ra 2", 
+                    "name": "Oeil de Ra 2", 
                     "logo": "icones/ra.png", 
                     "seuil": 75,
                     "idcible": 4,
@@ -240,7 +240,7 @@ module.exports = {
                     "unlocked": false
                 },
                 {
-                    "name": "Oeuil de Ra 3", 
+                    "name": "Oeil de Ra 3", 
                     "logo": "icones/ra.png", 
                     "seuil": 150,
                     "idcible": 1,
@@ -249,7 +249,7 @@ module.exports = {
                     "unlocked": false
                 },
                 {
-                    "name": "Oeuil de Ra 4", 
+                    "name": "Oeil de Ra 4", 
                     "logo": "icones/ra.png", 
                     "seuil": 300,
                     "idcible": 1,
@@ -258,7 +258,7 @@ module.exports = {
                     "unlocked": false
                 },
                 {
-                    "name": "Oeuil de Ra 5", 
+                    "name": "Oeil de Ra 5", 
                     "logo": "icones/ra.png",  
                     "seuil": 550,
                     "idcible": 1,
@@ -267,7 +267,7 @@ module.exports = {
                     "unlocked": false
                 },
                 {
-                    "name": "Oeuil de Ra 6", 
+                    "name": "Oeil de Ra 6", 
                     "logo": "icones/ra.png",  
                     "seuil": 1000,
                     "idcible": 1,
@@ -485,8 +485,8 @@ module.exports = {
             "unlocked": false
         },
         {
-            "name": "Batton upgrade", 
-            "logo": "icones/batton.png", 
+            "name": "Baton upgrade", 
+            "logo": "icones/baton.png", 
             "seuil": 110000,
             "idcible": 3,
             "ratio": 3,
@@ -494,7 +494,7 @@ module.exports = {
             "unlocked": false
         },
         {
-            "name": "Oeuil de Ra upgrade", 
+            "name": "Oeil de Ra upgrade", 
             "logo": "icones/ra.png", 
             "seuil": 700000,
             "idcible": 4,
