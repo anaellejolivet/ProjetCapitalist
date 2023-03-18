@@ -1,16 +1,20 @@
-import React, {useEffect, useState} from 'react';
 import './css/App.css';
+import React, {useEffect, useState} from 'react';
 import {Pallier, Product, World} from './world'
 import {devis, transform} from './utils'
+import { gql, useMutation } from '@apollo/client';
+
+import { Badge, Button, IconButton, Snackbar } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { wait } from '@testing-library/user-event/dist/utils';
+
 import ProductComponent from './Product';
 import ManagerComponent from './Manager';
-import { gql, useMutation } from '@apollo/client';
 import UnlockComponent from './Unlock';
-import { Badge, Button, IconButton } from '@mui/material';
-import Snackbar from '@mui/material/Snackbar';
-import CloseIcon from '@mui/icons-material/Close';
 import CashUpgradesComponent from './CashUpgrades';
-import { wait } from '@testing-library/user-event/dist/utils';
+import AngelComponent from './AngelUpgrades';
+import InvestorComponent from './Investor';
+import StatComponent from './Statistic';
 
 
 type MainProps = {
@@ -29,40 +33,34 @@ export default function Main({ loadworld, username } : MainProps) {
     const [showManagers, setShowManagers] = useState(false);
     const [showUnlocks, setShowUnlocks] = useState(false);
     const [showUpgrades, setShowUpgrades] = useState(false);
+    const [showAngelUpgrades, setShowAngelUpgrades] = useState(false);
+    const [showInvestors, setShowInvestors] = useState(false);
+    const [showStat, setShowStat] = useState(false);
+
+    
     const [open, setOpen] = useState(false);
     const [badgeManager, setBadgeManager] = useState(0);
     const [badgeUpgrade, setBadgeUpgrade] = useState(0);
+    const [badgeAngelUpgrade, setBadgeAngelUpgrade] = useState(0);
+    const [badgeReset, setBadgeReset] = useState(0);
 
     
     useEffect(() => {
-        setWorld(JSON.parse(JSON.stringify(loadworld)) as World)
-    }, [loadworld])
+
+        setWorld(JSON.parse(JSON.stringify(loadworld)) as World);
+
+      }, [loadworld]);
+      
+
+    // ~~~ Mise à jour des badges ~~~ 
 
     useEffect(() => {
-
-        // ~~~ Mise à jour des badges ~~~ 
-
-        // Badges Manager
-        setBadgeManager(prevBadgeManager => prevBadgeManager - prevBadgeManager); // Mettre à jour la valeur de badgeManager
-        world.managers.forEach(manager => {
-            if (world.money < manager.seuil) {
-                return
-            }else if(!manager.unlocked && manager.seuil <= world.money){
-                setBadgeManager(prevBadgeManager => prevBadgeManager + 1); // Mettre à jour la valeur de badgeManager
-            }
-        });
-
-        // Badges Upgrades
-        setBadgeUpgrade(prevBadgeUpgrade => prevBadgeUpgrade - prevBadgeUpgrade); // Mettre à jour la valeur de badgeManager
-        world.upgrades.forEach(upgrade => {
-            if (world.money < upgrade.seuil) {
-                return
-            }else if(!upgrade.unlocked && upgrade.seuil <= world.money){
-                setBadgeUpgrade(prevBadgeUpgrade => prevBadgeUpgrade + 1); // Mettre à jour la valeur de badgeManager
-            }
-        });
-
+        updateMoneyBadges()
     }, [money])
+
+    useEffect(() => {
+        updateAngelBadges()
+    }, [world.activeangels])
 
 
     // ------ SNACKBAR ---------------------------------------------
@@ -72,7 +70,6 @@ export default function Main({ loadworld, username } : MainProps) {
         if (reason === 'clickaway') {
             return;
         }
-    
         setOpen(false);
     };
 
@@ -142,23 +139,119 @@ export default function Main({ loadworld, username } : MainProps) {
                 }
             )
 
+        // ~~~~ Reset World
+            const RESET_WORLD = gql`
+            mutation resetWorld{
+                resetWorld{
+                    activeangels
+                    allunlocks {
+                    idcible
+                    logo
+                    name
+                    ratio
+                    seuil
+                    typeratio
+                    unlocked
+                    }
+                    angelbonus
+                    angelupgrades {
+                    idcible
+                    logo
+                    name
+                    ratio
+                    seuil
+                    typeratio
+                    unlocked
+                    }
+                    lastupdate
+                    logo
+                    managers {
+                    idcible
+                    logo
+                    name
+                    ratio
+                    seuil
+                    typeratio
+                    unlocked
+                    }
+                    money
+                    name
+                    products {
+                    cout
+                    id
+                    croissance
+                    logo
+                    managerUnlocked
+                    name
+                    paliers {
+                        idcible
+                        logo
+                        name
+                        ratio
+                        seuil
+                        typeratio
+                        unlocked
+                    }
+                    quantite
+                    revenu
+                    timeleft
+                    vitesse
+                    }
+                    score
+                    totalangels
+                    upgrades {
+                    idcible
+                    logo
+                    name
+                    ratio
+                    seuil
+                    typeratio
+                    unlocked
+                    }
+                }
+            }`
+
+            const [resetWorld] = useMutation(RESET_WORLD,
+                { context: { headers: { "x-user": username }},
+                    onError: (error): void => {
+                    // actions en cas d'erreur
+                    }
+                }
+            )
+        
+        // ~~~~ Angel Upgrade
+            const ACHETER_ANGEL_UPGRADE = gql`
+            mutation acheterAngelUpgrade($name: String!) {
+                acheterAngelUpgrade(name: $name) {
+                    name
+                }
+            }`
+
+            const [acheterAngelUpgrade] = useMutation(ACHETER_ANGEL_UPGRADE,
+                { context: { headers: { "x-user": username }},
+                    onError: (error): void => {
+                    // actions en cas d'erreur
+                    }
+                }
+            )
+
     // ------ /MUTATION ---------------------------------------------
-
-
 
 
     function onProductionDone(p: Product): void {
         // calcul de la somme obtenue par la production du produit
-        let gain = p.revenu*p.quantite
+        let gain = p.revenu*p.quantite * (1 + world.activeangels *  world.angelbonus /100)
 
         // ================================ MAJ MONEY =========================
         world.money = world.money + gain
-        setMoney(world.money+gain)
+        setMoney(world.money + gain)
+        world.score = world.score + gain
         // ================================ MAJ MONEY =========================
+
+        console.log("Revenu du produit " + p.name + " : " + p.revenu)
     }
 
     function onProductBuy(qt:number, product: Product) {
-        console.log("****************** onProductBuy *************************")
 
         let facture = devis(product,qt)
         
@@ -171,7 +264,6 @@ export default function Main({ loadworld, username } : MainProps) {
         // ================================ MAJ MONEY =========================
 
 
-        console.log("****************** Appel au back *************************")
         // En commentant cette ligne le front fonctionne mais perte de persistance
         achatProduit({ variables: { acheterQtProduitId: product.id, quantite: qt } })
 
@@ -181,10 +273,10 @@ export default function Main({ loadworld, username } : MainProps) {
                     palier.unlocked = true
                     switch (palier.typeratio) {
                         case "vitesse":
-                            product.vitesse = product.vitesse/palier.ratio
+                            Math.round(product.vitesse = product.vitesse/palier.ratio)
                             break;
                         case "gain":
-                            product.revenu = product.vitesse/palier.ratio
+                            Math.round(product.revenu = product.revenu*palier.ratio)
                             break;
                         default:
                             break;
@@ -207,6 +299,18 @@ export default function Main({ loadworld, username } : MainProps) {
 
                 if (allGood) {
                     unlock.unlocked = true
+                    world.products.forEach(product => {
+                        switch (unlock.typeratio) {
+                            case "vitesse":
+                                product.vitesse = Math.round(product.vitesse/unlock.ratio)
+                                break;
+                            case "gain":
+                                product.revenu = Math.round(product.revenu*unlock.ratio)
+                                break;
+                            default:
+                                break;
+                        }
+                    })
                     setMessageSnackBar(unlock.name + " ! ==> "+ unlock.typeratio + " x" + unlock.ratio)
                     setOpen(true)
                 }
@@ -216,18 +320,105 @@ export default function Main({ loadworld, username } : MainProps) {
 
     }
 
-    function onCloseManager() {
-        setShowManagers(!showManagers)
-    }
 
-    function onCloseUnlock() {
-        setShowUnlocks(!showUnlocks)
-    }
+    // ------ FONCTIONS D'AFFICHAGE ---------------------------------------
+        
+        function updateMoneyBadges() {
+            // Badges Manager
+            setBadgeManager(prevBadgeManager => prevBadgeManager - prevBadgeManager);
+            world.managers.forEach(manager => {
+                if (world.money < manager.seuil) {
+                    return
+                }else if(!manager.unlocked && manager.seuil <= world.money){
+                    setBadgeManager(prevBadgeManager => prevBadgeManager + 1); // Mettre à jour la valeur de badgeManager
+                }
+            });
 
-    function onCloseCashUpgrades() {
-        setShowUpgrades(!showUpgrades)
-    }
-    
+            // Badges Cash Upgrades
+            setBadgeUpgrade(prevBadgeUpgrade => prevBadgeUpgrade - prevBadgeUpgrade);
+            world.upgrades.forEach(upgrade => {
+                if (world.money < upgrade.seuil) {
+                    return
+                }else if(!upgrade.unlocked && upgrade.seuil <= world.money){
+                    setBadgeUpgrade(prevBadgeUpgrade => prevBadgeUpgrade + 1);
+                }
+            });
+        }
+
+        function updateAngelBadges() {
+            // Badges Angel Upgrades
+            setBadgeAngelUpgrade(prevBadgeAngelUpgrade => prevBadgeAngelUpgrade - prevBadgeAngelUpgrade);
+            world.angelupgrades.forEach(angelUpg => {
+                if (world.activeangels < angelUpg.seuil) {
+                    return
+                }else if(!angelUpg.unlocked && angelUpg.seuil <= world.activeangels){
+                    setBadgeAngelUpgrade(prevBadgeAngelUpgrade => prevBadgeAngelUpgrade + 1);
+                }
+            });
+
+            // Badges Reset World
+            setBadgeReset(prevBadgeReset => prevBadgeReset - prevBadgeReset);
+            setBadgeReset(prevBadgeReset => prevBadgeReset + Math.floor(150 * Math.sqrt(world.score/Math.pow(10, 15))-world.totalangels));
+            
+        }
+
+        function onOpenCloseManager() {
+            setShowManagers(!showManagers)
+            setShowAngelUpgrades(false)
+            setShowInvestors(false)
+            setShowUnlocks(false)
+            setShowUpgrades(false)
+            setShowStat(false)
+        }
+
+        function onOpenCloseUnlock() {
+            setShowUnlocks(!showUnlocks)
+            setShowAngelUpgrades(false)
+            setShowInvestors(false)
+            setShowManagers(false)
+            setShowUpgrades(false)
+            setShowStat(false)
+        }
+
+        function onOpenCloseCashUpgrades() {
+            setShowUpgrades(!showUpgrades)
+            setShowAngelUpgrades(false)
+            setShowInvestors(false)
+            setShowManagers(false)
+            setShowUnlocks(false)
+            setShowStat(false)
+        }
+
+        function onOpenCloseAngelUpgrades() {
+            setShowAngelUpgrades(!showAngelUpgrades)
+            setShowInvestors(false)
+            setShowManagers(false)
+            setShowUnlocks(false)
+            setShowUpgrades(false)
+            setShowStat(false)
+        }
+
+        function onOpenCloseInvestors() {
+            setShowInvestors(!showInvestors)
+            setShowAngelUpgrades(false)
+            setShowManagers(false)
+            setShowUnlocks(false)
+            setShowUpgrades(false)
+            setShowStat(false)
+        }
+
+        function onOpenCloseStat() {
+            setShowStat(!showStat)
+            setShowInvestors(false)
+            setShowAngelUpgrades(false)
+            setShowManagers(false)
+            setShowUnlocks(false)
+            setShowUpgrades(false)
+        }
+
+    // ------ /FONCTIONS D'AFFICHAGE ---------------------------------------
+
+
     function onManagerHired(manager: Pallier) {
 
         // ================================ MAJ MONEY =========================
@@ -238,7 +429,68 @@ export default function Main({ loadworld, username } : MainProps) {
         world.products[manager.idcible-1].managerUnlocked = true;
 
         engagerManager({ variables: { name: manager.name } });
+
+        setMessageSnackBar(manager.name + " rejoins l'équipe !")
+        setOpen(true)
         
+    }
+
+    function onCashUpgradeBought(cashUpgrade:Pallier) {
+        onUpgradeBought(cashUpgrade)
+
+        world.money -= cashUpgrade.seuil
+        setMoney(money - cashUpgrade.seuil)
+
+        acheterCashUpgrade({ variables: { name: cashUpgrade.name } });
+
+    }
+
+    function onAngelUpgradeBought(angelUpgrade:Pallier) {
+        onUpgradeBought(angelUpgrade)
+
+        world.activeangels -= angelUpgrade.seuil
+
+        acheterAngelUpgrade({ variables: { name: angelUpgrade.name } });
+    }
+
+    function onUpgradeBought(upgrade:Pallier) {
+
+
+        switch (upgrade.typeratio) {
+            case "vitesse":
+                if (upgrade.idcible == 0) {
+                    world.products.forEach(product => {
+                        product.vitesse = product.vitesse/upgrade.ratio
+                    });
+                }else{
+                    world.products[upgrade.idcible-1].vitesse = world.products[upgrade.idcible-1].vitesse/upgrade.ratio
+                }
+                break;
+            case "gain":
+                if (upgrade.idcible == 0) {
+                    world.products.forEach(product => {
+                        product.revenu = product.revenu*upgrade.ratio
+                    });
+                }else{
+                    world.products[upgrade.idcible-1].revenu = world.products[upgrade.idcible-1].revenu*upgrade.ratio
+                }
+                break;
+            default:
+                break;
+        }
+
+        upgrade.unlocked= true
+
+        setMessageSnackBar(upgrade.name + " ! ==> "+ upgrade.typeratio + " x" + upgrade.ratio)
+        setOpen(true)
+    }
+
+    async function onResetWorld() {
+        // APPELER LA MUTATION
+        const { data } = await resetWorld({ variables: { name: username } })
+        loadworld = data.resetWorld
+        
+        setWorld(JSON.parse(JSON.stringify(data.resetWorld)) as World);
     }
 
     function switchQtMulti() {
@@ -261,72 +513,61 @@ export default function Main({ loadworld, username } : MainProps) {
         }
     }
 
-    function onUpgradeBought(upgrade:Pallier) {
-
-        console.log("unlocked ? : "+ upgrade.unlocked)
-
-
-        switch (upgrade.typeratio) {
-            case "vitesse":
-                world.products[upgrade.idcible-1].vitesse = world.products[upgrade.idcible-1].vitesse/upgrade.ratio
-                console.log(world.products[upgrade.idcible-1].name)
-                break;
-            case "gain":
-                world.products[upgrade.idcible-1].revenu = world.products[upgrade.idcible-1].revenu*upgrade.ratio
-                console.log(upgrade.ratio)
-                break;
-            default:
-                break;
-        }
-
-        world.money = world.money - upgrade.seuil
-        setMoney(money - upgrade.seuil)
-
-        acheterCashUpgrade({ variables: { name: upgrade.name } });
-        
-        upgrade.unlocked= true
-        world.upgrades[upgrade.idcible-1].unlocked = true
-
-        setMessageSnackBar(upgrade.name + " ! ==> "+ upgrade.typeratio + " x" + upgrade.ratio)
-        setOpen(true)
-
-    }
-
-        return (
+    return (
         <div className="main">
 
             <div className='dashboard'>
                 <div>  <img className='worldImg' src={"http://localhost:4000/" + loadworld.logo} /> <h4>{loadworld.name}</h4> </div> 
-                <div className='money'> <h4 dangerouslySetInnerHTML={{__html: transform(world.money)}}></h4> <img className='imgMoney' src={"http://localhost:4000/icones/money.png"}  /></div>
+                    
+                <div className='money'> <h4 dangerouslySetInnerHTML={{__html: transform(world.money)}}></h4> <img onClick={() => onOpenCloseStat()} className='imgMoney moneyDashboard' src={"http://localhost:4000/icones/money.png"}  /></div>
                 <div><button className='qtBuy' onClick={switchQtMulti}>{qtmulti}</button>  </div> 
             </div>
 
             <div className='jeu'>
                 <div className='menu_buttons'>
                     <h2>Menu</h2>
-                    <Badge badgeContent={badgeManager} color="primary">
-                        <Button onClick={() => setShowManagers(!showManagers)}>{showManagers ? 'Hide Managers' : 'Show Managers'}</Button>
-                    </Badge>
-                    {showManagers && <ManagerComponent world={world} money={world.money} showManagers={showManagers} onCloseManager={onCloseManager} onManagerHired={onManagerHired} />}
                     
-                    <Button onClick={() => setShowUnlocks(!showUnlocks)}>{showUnlocks ? 'Hide Unlocks' : 'Show Unlocks'}</Button>
+                    {showStat && <StatComponent world={world} showStat={showStat} onCloseStat={onOpenCloseStat} />}
 
-                    {showUnlocks && <UnlockComponent world={world} money={world.money} showUnlocks={showUnlocks} onCloseUnlock={onCloseUnlock} />}
+
+                    <Badge badgeContent={badgeManager} color="primary">
+                    <Button onClick={onOpenCloseManager}>{showManagers ? 'Cacher Managers' : 'Afficher Managers'}</Button>
+                    </Badge>
+                    {showManagers && <ManagerComponent world={world} money={world.money} showManagers={showManagers} onCloseManager={onOpenCloseManager} onManagerHired={onManagerHired} />}
+
+                    <Button onClick={onOpenCloseUnlock}>{showUnlocks ? 'Cacher Unlocks' : 'Afficher Unlocks'}</Button>
+                    {showUnlocks && <UnlockComponent world={world} money={world.money} showUnlocks={showUnlocks} onCloseUnlock={onOpenCloseUnlock} />}
                     
                     <Badge badgeContent={badgeUpgrade} color="primary">             
-                    <Button onClick={() => setShowUpgrades(!showUpgrades)}>{showUpgrades ? 'Hide Upgrades' : 'Show Upgrades'}</Button>
-                    {showUpgrades && <CashUpgradesComponent world={world} money={world.money} showUpgrades={showUpgrades} onCloseCashUpgrades={onCloseCashUpgrades} onUpgradeBought={onUpgradeBought} />}
+                    <Button onClick={onOpenCloseCashUpgrades}>{showUpgrades ? 'Cacher Upgrades' : 'Afficher Upgrades'}</Button>
+                    {showUpgrades && <CashUpgradesComponent world={world} money={world.money} showUpgrades={showUpgrades} onCloseCashUpgrades={onOpenCloseCashUpgrades} onUpgradeBought={onCashUpgradeBought} />}
+                    </Badge>
+
+                    <Badge badgeContent={badgeAngelUpgrade} color="primary">             
+                    <Button onClick={onOpenCloseAngelUpgrades}>{showAngelUpgrades ? 'Cacher Angel Upgrades' : 'Afficher Angel Upgrades'}</Button>
+                    {showAngelUpgrades && <AngelComponent world={world} money={world.money} showAngelUpgrades={showAngelUpgrades} onCloseAngel={onOpenCloseAngelUpgrades} onAngelUpgBought={onAngelUpgradeBought} />}
+                    </Badge>
+
+                    
+                    <Badge badgeContent={badgeReset} color="secondary">             
+                    <Button color="secondary" onClick={onOpenCloseInvestors}>{showInvestors ? 'Cacher Investors' : 'Afficher Investisseurs'}</Button>
+                    {showInvestors && <InvestorComponent world={world} money={world.money} showInvestors={showInvestors} onCloseInvestors={onOpenCloseInvestors} onResetWorld={onResetWorld} />}
                     </Badge>
 
                 </div>
 
                 <div className='products'> 
-                    <ProductComponent product={world.products[0]} onProductBuy={onProductBuy} onProductionDone={onProductionDone} qtmulti={qtmulti} worldmoney={world.money} username={username} />
+                    {world.products.map(product => (
+                        <ProductComponent key={"product"+product.id} product={product} onProductBuy={onProductBuy} onProductionDone={onProductionDone} qtmulti={qtmulti} worldmoney={world.money} username={username} />
+                    ))}
+
+
+                    {/* <ProductComponent product={world.products[0]} onProductBuy={onProductBuy} onProductionDone={onProductionDone} qtmulti={qtmulti} worldmoney={world.money} username={username} />
                     <ProductComponent product={world.products[1]} onProductBuy={onProductBuy} onProductionDone={onProductionDone} qtmulti={qtmulti} worldmoney={world.money} username={username} />
                     <ProductComponent product={world.products[2]} onProductBuy={onProductBuy} onProductionDone={onProductionDone} qtmulti={qtmulti} worldmoney={world.money} username={username} />
                     <ProductComponent product={world.products[3]} onProductBuy={onProductBuy} onProductionDone={onProductionDone} qtmulti={qtmulti} worldmoney={world.money} username={username} />
                     <ProductComponent product={world.products[4]} onProductBuy={onProductBuy} onProductionDone={onProductionDone} qtmulti={qtmulti} worldmoney={world.money} username={username} />
-                    <ProductComponent product={world.products[5]} onProductBuy={onProductBuy} onProductionDone={onProductionDone} qtmulti={qtmulti} worldmoney={world.money} username={username} />
+                    <ProductComponent product={world.products[5]} onProductBuy={onProductBuy} onProductionDone={onProductionDone} qtmulti={qtmulti} worldmoney={world.money} username={username} /> */}
 
                 </div>
             </div>

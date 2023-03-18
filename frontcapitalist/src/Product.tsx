@@ -44,16 +44,16 @@ export default function ProductComponent({product, onProductBuy, onProductionDon
         }
     )
 
-    function prixAfficher(): String{
+    function prixAfficher(): string{
         let montant
         let maxCanBuy = calcMaxCanBuy()
 
         if ( (qtmulti == "Max" && maxCanBuy == 0) || (qtmulti !== "Max" && maxCanBuy < parseInt(qtmulti.substring(1))) ) {
             if (qtmulti == "Max"){
-                montant = "Not enough money - " +transform(devis(product,calcMaxCanBuy()))
+                montant = "Prix : Pas assez d'argent ! - " + transform(devis(product,calcMaxCanBuy()))
             }
             else{
-                montant = "Not enough money - " +transform(devis(product, parseInt(qtmulti.substring(1))))
+                montant = "Prix : Pas assez d'argent ! - " + transform(devis(product, parseInt(qtmulti.substring(1))))
             }
         }else{
             if (qtmulti == "Max"){
@@ -87,14 +87,6 @@ export default function ProductComponent({product, onProductBuy, onProductionDon
     }
     
     function buyProduct() {
-        // console.log(product.revenu)
-        console.log(product.vitesse)
-        console.log("GAIN  :  " + product.revenu)
-
-        console.log("cout = " + product.cout)
-        console.log("money = " + worldmoney)
-
-        
 
         let maxCanBuy = calcMaxCanBuy()
 
@@ -111,7 +103,6 @@ export default function ProductComponent({product, onProductBuy, onProductionDon
                 break;
             case "Max":
                 if (maxCanBuy > 0) {
-                    console.log(maxCanBuy)
                     onProductBuy(maxCanBuy,product)
                 }
                 break;
@@ -121,7 +112,6 @@ export default function ProductComponent({product, onProductBuy, onProductionDon
     }
 
     function calcMaxCanBuy(): number{
-        //console.log("Prix du produit =>  "+product.cout)
         let prix = product.cout
         let maxCanBuy = 0
         let somme = product.cout
@@ -135,8 +125,6 @@ export default function ProductComponent({product, onProductBuy, onProductionDon
     }
 
     function calcScore(): void {
-
-        console.log(worldmoney)
 
         if (product.timeleft !== 0) {
             product.timeleft = product.timeleft - (Date.now() - lastupdate)
@@ -158,6 +146,14 @@ export default function ProductComponent({product, onProductBuy, onProductionDon
         }
     }
 
+    function displayQtAchat(): String {
+        if (qtmulti == "Max") {
+            return calcMaxCanBuy().toString()
+        }else{
+            return qtmulti
+        }
+    }
+
     return (
         <div className="product">
 
@@ -169,17 +165,27 @@ export default function ProductComponent({product, onProductBuy, onProductionDon
             <div className='p_secondSection'>
                 <h2>{product.name}</h2>
                 { product.quantite > 0 && 
-                    <MyProgressbar className="barstyle" vitesse={product.vitesse}
-                    initialvalue={product.vitesse - product.timeleft}
-                    run={run} frontcolor="#eeb63c" backcolor="#3c3c3c"
-                    auto={product.managerUnlocked}
-                    orientation={Orientation.horizontal} />
-                }           
-                <Button disabled={desactiverButton()} onClick={buyProduct} id={"buyProduct" + product.id.toString()}>
-                    Buy {qtmulti} (Price : {prixAfficher()})
-                </Button>
+                    <div className='progressBar'>
+                        <MyProgressbar className="barstyle" vitesse={product.vitesse}
+                        initialvalue={product.vitesse - product.timeleft}
+                        run={run} frontcolor="#eeb63c" backcolor="#3c3c3c"
+                        auto={product.managerUnlocked}
+                        orientation={Orientation.horizontal} />
+                        <div className='timeleft'>{product.timeleft}</div>
+                    </div>
+                }     
+
+                <Button
+                disabled={desactiverButton()}
+                onClick={buyProduct}
+                id={"buyProduct" + product.id.toString()}
+                style={{display : "flex", flexDirection : "column"}}
+                >
+                <span> Acheter{" (" + displayQtAchat() + ") "}</span>
+                <span style={{marginLeft : "10px"}} dangerouslySetInnerHTML={{__html: prixAfficher() }} />
+                </Button>            
+
             </div>
-            
         </div>
     );
 

@@ -125,6 +125,19 @@ input[type=text]:focus {
   margin-left: 10px;
 }
 
+.moneyDashboard:hover{
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(145, 255, 248, 0.551);
+  box-shadow:
+      0 0 182px 5px #fff,
+      0 0 88px 33px rgb(145, 255, 248),
+      0 0 268px 10px #0ff
+  
+}
+
 .money{
   display: flex;
   align-items: center;
@@ -187,14 +200,18 @@ input[type=text]:focus {
   background-color: rgba(255, 255, 255, 0.949); /* opaque */
   border: solid;
   border-radius: 2%;
-  top:10%; 
+  top:20%; 
   left:25%;
  }
 
- .Button .closebutton{
-    position: relative;
-    margin: 222px;
- }
+ .modal-content {
+  position: relative; /* contenu relatif à la modal */
+  height: 100%; /* hauteur totale */
+}
+
+
+
+
 
 
 

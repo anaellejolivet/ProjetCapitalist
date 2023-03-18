@@ -28,7 +28,6 @@ export default function ManagerComponent({world, money, showManagers, onCloseMan
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        console.log("loead manager")
         setShow(showManagers);
     }, [showManagers]);
 
@@ -75,7 +74,7 @@ export default function ManagerComponent({world, money, showManagers, onCloseMan
         <div className="modal"> { show &&
             <div >
                 <div>
-                    <h1 className="title">Managers make you feel better !</h1>
+                    <h1 className="title">Managers pour faire le beurre !</h1>
                 </div>
                 <div>
                     {world.managers.filter( manager => !manager.unlocked).map(manager =>
@@ -91,7 +90,7 @@ export default function ManagerComponent({world, money, showManagers, onCloseMan
                                 <div className="managercible"> <h5>{world.products[manager.idcible-1].name }</h5> </div>
                             </div>
                             <div>
-                                <Button disabled={world.money < manager.seuil} onClick={() => hireManager(manager)}> Hire !</Button>
+                                <Button disabled={world.money < manager.seuil} onClick={() => hireManager(manager)}> ENGAGER !</Button>
                                 <Snackbar
                                 open={open}
                                 autoHideDuration={6000}
@@ -102,7 +101,7 @@ export default function ManagerComponent({world, money, showManagers, onCloseMan
                             </div>
                         </div>
                     )}
-                    <Button className="closebutton" color='error' onClick={close} >Close</Button>
+                    <Button sx={{ position: 'absolute', right:'2%', top:'3%'}} className="closebutton" color='error' onClick={close} >X</Button>
 
 
                 </div>

@@ -93,7 +93,7 @@ export default function UnlockComponent({world, money, showUnlocks, onCloseUnloc
                             </div>
                         </div>
                     ))}
-                    <Button className="closebutton" color='error' onClick={close} >Close</Button>
+                    <Button sx={{ position: 'absolute', right:'2%', top:'3%'}} className="closebutton" color='error' onClick={close} >X</Button>
                 </div>
             </div>
         } </div>

@@ -14,30 +14,28 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
 
-type CashUpgradesProps = {
+type AngelProps = {
     world: World
     money: number
-    showUpgrades: boolean
-    onCloseCashUpgrades: () => void
-    onUpgradeBought: (upgrade: Pallier) => void
-
+    showAngelUpgrades: boolean
+    onCloseAngel: () => void
+    onAngelUpgBought: (angelUpg : Pallier) => void
 }
 
 
-export default function CashUpgradesComponent({world, money, showUpgrades, onCloseCashUpgrades, onUpgradeBought} : CashUpgradesProps) { 
+export default function AngelComponent({world, money, showAngelUpgrades, onCloseAngel, onAngelUpgBought} : AngelProps) { 
 
     useEffect(() => {
-        setShow(showUpgrades);
-    }, [showUpgrades]);
+        setShow(showAngelUpgrades);
+    }, [showAngelUpgrades]);
     
-    const [show, setShow] = useState(showUpgrades);
+    const [show, setShow] = useState(showAngelUpgrades);
     const [open, setOpen] = React.useState(false);
 
     const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
-
         setOpen(false);
     };
 
@@ -56,12 +54,12 @@ export default function CashUpgradesComponent({world, money, showUpgrades, onClo
 
     function close() {
         setShow(!show)
-        onCloseCashUpgrades()
+        onCloseAngel()
     }
 
-    function onBuyUpgrade(ugrade: Pallier) {
-        if (ugrade.seuil <= money) {
-            onUpgradeBought(ugrade)
+    function onBuyAngelUpg(angelUpg : Pallier) {
+        if (angelUpg.seuil <= world.activeangels) {
+            onAngelUpgBought(angelUpg)
             setOpen(false);
         }
     }
@@ -69,20 +67,18 @@ export default function CashUpgradesComponent({world, money, showUpgrades, onClo
     return (
         <div className="modal"> { show &&
             <div>
-                <h1 className="title">Cash Upgraaades !</h1>
+                <h1 className="title">Angel Upgraaades !</h1>
                 <div>
                     <div className='allUnlocks'>
-                        {world.upgrades.map(upgd => ( !upgd.unlocked &&
-                            <div className='upgrades'>
-                                <img className='menuImg' src={"http://localhost:4000/" +upgd.logo}/>
+                        {world.angelupgrades.map(angelUpg => ( !angelUpg.unlocked &&
+                            <div key={angelUpg.name} className='upgrades'>
+                                <h4>{angelUpg.name}</h4>
                                 <div>
-                                    <p>{upgd.name}</p>
-                                    <h3>{upgd.seuil} <img className='imgMoney' src={"http://localhost:4000/icones/money.png"}/></h3>
-                                    <p>{world.products[upgd.idcible-1]?.name ? world.products[upgd.idcible-1].name : "Tout les produits"} {upgd.typeratio} x{upgd.ratio}</p>
+                                    <h3>{angelUpg.seuil} <img className='imgMoney' src={"http://localhost:4000/icones/sphynx.png"}/></h3>
+                                    <p>{world.products[angelUpg.idcible-1]?.name ? world.products[angelUpg.idcible-1].name : "Tout les produits"} {angelUpg.typeratio} x{angelUpg.ratio}</p>
                                 </div>
-                                <Button disabled={world.money < upgd.seuil} onClick={() => onBuyUpgrade(upgd) } >ACHETER !</Button>
+                                <Button disabled={world.activeangels < angelUpg.seuil} onClick={() => onBuyAngelUpg(angelUpg) } >ACHETER !</Button>
                             </div>
-
                         ))}
                     </div>
                     <Button sx={{ position: 'absolute', right:'2%', top:'3%'}} className="closebutton" color='error' onClick={close} >X</Button>

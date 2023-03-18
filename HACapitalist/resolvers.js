@@ -43,8 +43,8 @@ function majScore(context) {
       if (produit.timeleft != 0) {
         if (produit.timeleft <= tempsEcoule) {
           //on met a jour le score et la money
-          world.score += produit.revenu * produit.quantite;
-          world.money += produit.revenu * produit.quantite;
+          world.score += produit.revenu * produit.quantite * (1 + world.activeangels *  world.angelbonus /100);
+          world.money += produit.revenu * produit.quantite * (1 + world.activeangels *  world.angelbonus /100);
           produit.timeleft = 0;
         } else {
           produit.timeleft -= tempsEcoule;
@@ -69,10 +69,10 @@ function appliquerBonus(palier, context) {
   produits.forEach((produit) => {
     if (palier.typeratio == "vitesse") {
       //reduction du temps de production
-      produit.vitesse = produit.vitesse / palier.ratio;
+      produit.vitesse = Math.round(produit.vitesse / palier.ratio);
     } else {
       //augmentation du revenu 
-      produit.revenu = produit.revenu * palier.ratio;
+      produit.revenu = Math.round(produit.revenu * palier.ratio);
     }
   });
 }
@@ -204,7 +204,7 @@ module.exports = {
         throw new Error(`L'angel update avec le nom ${args.name} n'existe pas`);
       } else {
         angelUpgrade.unlocked = true;
-        world.money -= angelUpgrade.seuil;
+        world.activeangels -= angelUpgrade.seuil;
         //on applique le bonus de l'upgrade
         appliquerBonus(angelUpgrade, context);
         saveWorld(context);
@@ -213,6 +213,7 @@ module.exports = {
       return angelUpgrade;
     },
     resetWorld(parent, args, context) {
+      console.log("reset ===========z========")
       majScore(context);
       let world = context.world;
       let nbanges = Math.floor(150 * Math.sqrt(world.score/Math.pow(10, 15))-world.totalangels);
