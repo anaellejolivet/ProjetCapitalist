@@ -1,5 +1,6 @@
 import { Product } from "./world";
 
+// Transformation d'un nombre en chaine de caractère de ce nombre en puissance de 10
 export function transform(valeur: number): string {
     let res : string = "";
     if (valeur < 1000)
@@ -13,9 +14,10 @@ export function transform(valeur: number): string {
     return res;
 }
 
+// Calcul, à partir de la quantité souhaité, le prix d'achat de n produit
+// Appel : Lors de l'achat d'un produit et pour l'affichage du prix d'achat de n produits sur le bouton achat
 export function devis(product: Product, qt: number): number{
-    // console.log(qt)
-    // console.log("le cout d'un produit dans utils"+qt)
+
     let prix = product.cout
     let somme = product.cout
 
@@ -24,8 +26,6 @@ export function devis(product: Product, qt: number): number{
         somme = somme + prix
     }
 
-    // console.log("montant ici : " + montant)
     return somme
-
 }
    

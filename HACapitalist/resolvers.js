@@ -213,7 +213,6 @@ module.exports = {
       return angelUpgrade;
     },
     resetWorld(parent, args, context) {
-      console.log("reset ===========z========")
       majScore(context);
       let world = context.world;
       let nbanges = Math.floor(150 * Math.sqrt(world.score/Math.pow(10, 15))-world.totalangels);

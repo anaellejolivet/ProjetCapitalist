@@ -238,91 +238,31 @@ export default function Main({ loadworld, username } : MainProps) {
     // ------ /MUTATION ---------------------------------------------
 
 
-    function onProductionDone(p: Product): void {
-        // calcul de la somme obtenue par la production du produit
-        let gain = p.revenu*p.quantite * (1 + world.activeangels *  world.angelbonus /100)
-
-        // ================================ MAJ MONEY =========================
-        world.money = world.money + gain
-        setMoney(world.money + gain)
-        world.score = world.score + gain
-        // ================================ MAJ MONEY =========================
-
-        console.log("Revenu du produit " + p.name + " : " + p.revenu)
-    }
-
-    function onProductBuy(qt:number, product: Product) {
-
-        let facture = devis(product,qt)
-        
-        product.quantite = product.quantite + qt
-        product.cout = product.cout*Math.pow(product.croissance, qt)
-
-        // ================================ MAJ MONEY =========================
-        world.money = world.money - facture
-        setMoney(money - facture)
-        // ================================ MAJ MONEY =========================
-
-
-        // En commentant cette ligne le front fonctionne mais perte de persistance
-        achatProduit({ variables: { acheterQtProduitId: product.id, quantite: qt } })
-
-        world.products.forEach(product => {
-            product.paliers.forEach(palier =>{
-                if (palier.seuil <= product.quantite && palier.unlocked != true ) {
-                    palier.unlocked = true
-                    switch (palier.typeratio) {
-                        case "vitesse":
-                            Math.round(product.vitesse = product.vitesse/palier.ratio)
-                            break;
-                        case "gain":
-                            Math.round(product.revenu = product.revenu*palier.ratio)
-                            break;
-                        default:
-                            break;
-                    }
-                    setMessageSnackBar(palier.name + " ! ==> "+ palier.typeratio + " x" + palier.ratio)
-                    setOpen(true)
-                }
-            });
-        });
-
-        world.allunlocks.forEach(unlock => {
-            if (unlock.seuil <= product.quantite && !unlock.unlocked) {
-                let allGood = true
-                world.products.forEach(p => {
-                    if (unlock.seuil > p.quantite) {
-                        allGood = false
-                        return
-                    }
-                })
-
-                if (allGood) {
-                    unlock.unlocked = true
-                    world.products.forEach(product => {
-                        switch (unlock.typeratio) {
-                            case "vitesse":
-                                product.vitesse = Math.round(product.vitesse/unlock.ratio)
-                                break;
-                            case "gain":
-                                product.revenu = Math.round(product.revenu*unlock.ratio)
-                                break;
-                            default:
-                                break;
-                        }
-                    })
-                    setMessageSnackBar(unlock.name + " ! ==> "+ unlock.typeratio + " x" + unlock.ratio)
-                    setOpen(true)
-                }
-            }
-
-        });
-
-    }
-
-
     // ------ FONCTIONS D'AFFICHAGE ---------------------------------------
-        
+
+        // Changement de la valeur inscrite dans le bouton de quantité
+        // Appel : au clic du bouton de quantité
+        function switchQtMulti() {
+            switch (qtmulti) {
+                case "x1":
+                    setQtMulti("x10")
+                    break;
+                case "x10":
+                    setQtMulti("x100")
+                    break;
+                case "x100":
+                    setQtMulti("Max")
+                    break;
+                case "Max":
+                    setQtMulti("x1")
+                    break;
+                default:
+                    setQtMulti("x1")
+                    break;
+            }
+        }
+
+        // Mise à jour des badges liées à l'argent (Manager + Cash Upgrade)
         function updateMoneyBadges() {
             // Badges Manager
             setBadgeManager(prevBadgeManager => prevBadgeManager - prevBadgeManager);
@@ -345,6 +285,7 @@ export default function Main({ loadworld, username } : MainProps) {
             });
         }
 
+        // Mise à jour des badges liées aux anges (Reset World + Angel Upgrade)
         function updateAngelBadges() {
             // Badges Angel Upgrades
             setBadgeAngelUpgrade(prevBadgeAngelUpgrade => prevBadgeAngelUpgrade - prevBadgeAngelUpgrade);
@@ -362,156 +303,246 @@ export default function Main({ loadworld, username } : MainProps) {
             
         }
 
-        function onOpenCloseManager() {
-            setShowManagers(!showManagers)
-            setShowAngelUpgrades(false)
-            setShowInvestors(false)
-            setShowUnlocks(false)
-            setShowUpgrades(false)
-            setShowStat(false)
-        }
+        // ---  Ouverture et Fermeture des fenetres  ---
+        // (A l'ouverture ou fermeture d'une fenetre, on ferme toutes les autres)
+            function onOpenCloseManager() {
+                setShowManagers(!showManagers)
+                setShowAngelUpgrades(false)
+                setShowInvestors(false)
+                setShowUnlocks(false)
+                setShowUpgrades(false)
+                setShowStat(false)
+            }
 
-        function onOpenCloseUnlock() {
-            setShowUnlocks(!showUnlocks)
-            setShowAngelUpgrades(false)
-            setShowInvestors(false)
-            setShowManagers(false)
-            setShowUpgrades(false)
-            setShowStat(false)
-        }
+            function onOpenCloseUnlock() {
+                setShowUnlocks(!showUnlocks)
+                setShowAngelUpgrades(false)
+                setShowInvestors(false)
+                setShowManagers(false)
+                setShowUpgrades(false)
+                setShowStat(false)
+            }
 
-        function onOpenCloseCashUpgrades() {
-            setShowUpgrades(!showUpgrades)
-            setShowAngelUpgrades(false)
-            setShowInvestors(false)
-            setShowManagers(false)
-            setShowUnlocks(false)
-            setShowStat(false)
-        }
+            function onOpenCloseCashUpgrades() {
+                setShowUpgrades(!showUpgrades)
+                setShowAngelUpgrades(false)
+                setShowInvestors(false)
+                setShowManagers(false)
+                setShowUnlocks(false)
+                setShowStat(false)
+            }
 
-        function onOpenCloseAngelUpgrades() {
-            setShowAngelUpgrades(!showAngelUpgrades)
-            setShowInvestors(false)
-            setShowManagers(false)
-            setShowUnlocks(false)
-            setShowUpgrades(false)
-            setShowStat(false)
-        }
+            function onOpenCloseAngelUpgrades() {
+                setShowAngelUpgrades(!showAngelUpgrades)
+                setShowInvestors(false)
+                setShowManagers(false)
+                setShowUnlocks(false)
+                setShowUpgrades(false)
+                setShowStat(false)
+            }
 
-        function onOpenCloseInvestors() {
-            setShowInvestors(!showInvestors)
-            setShowAngelUpgrades(false)
-            setShowManagers(false)
-            setShowUnlocks(false)
-            setShowUpgrades(false)
-            setShowStat(false)
-        }
+            function onOpenCloseInvestors() {
+                setShowInvestors(!showInvestors)
+                setShowAngelUpgrades(false)
+                setShowManagers(false)
+                setShowUnlocks(false)
+                setShowUpgrades(false)
+                setShowStat(false)
+            }
 
-        function onOpenCloseStat() {
-            setShowStat(!showStat)
-            setShowInvestors(false)
-            setShowAngelUpgrades(false)
-            setShowManagers(false)
-            setShowUnlocks(false)
-            setShowUpgrades(false)
-        }
+            function onOpenCloseStat() {
+                setShowStat(!showStat)
+                setShowInvestors(false)
+                setShowAngelUpgrades(false)
+                setShowManagers(false)
+                setShowUnlocks(false)
+                setShowUpgrades(false)
+            }
+        // ---  /Ouverture et Fermeture des fenetres  ---
 
     // ------ /FONCTIONS D'AFFICHAGE ---------------------------------------
 
+    // ------ FONCTIONS D'EVENEMENT ----------------------------------------
 
-    function onManagerHired(manager: Pallier) {
+        // Mise à jour de l'affichage de l'argent et du score
+        // Appel : à la fin de chaque production
+        function onProductionDone(p: Product): void {
+            // calcul de la somme obtenue par la production du produit
+            let gain = p.revenu * p.quantite * (1 + world.activeangels *  world.angelbonus /100)
 
-        // ================================ MAJ MONEY =========================
-        world.money = world.money - manager.seuil
-        setMoney(money - manager.seuil)
-        // ================================ MAJ MONEY =========================
-        manager.unlocked= true
-        world.products[manager.idcible-1].managerUnlocked = true;
+            // ============ MAJ MONEY & SCORE ============
+            world.money = world.money + gain
+            world.score = world.score + gain
+            setMoney(world.money + gain) // (afin de mettre à jour l'affichage dynamiquement)
+            // ============ MAJ MONEY & SCORE ============
 
-        engagerManager({ variables: { name: manager.name } });
-
-        setMessageSnackBar(manager.name + " rejoins l'équipe !")
-        setOpen(true)
-        
-    }
-
-    function onCashUpgradeBought(cashUpgrade:Pallier) {
-        onUpgradeBought(cashUpgrade)
-
-        world.money -= cashUpgrade.seuil
-        setMoney(money - cashUpgrade.seuil)
-
-        acheterCashUpgrade({ variables: { name: cashUpgrade.name } });
-
-    }
-
-    function onAngelUpgradeBought(angelUpgrade:Pallier) {
-        onUpgradeBought(angelUpgrade)
-
-        world.activeangels -= angelUpgrade.seuil
-
-        acheterAngelUpgrade({ variables: { name: angelUpgrade.name } });
-    }
-
-    function onUpgradeBought(upgrade:Pallier) {
-
-
-        switch (upgrade.typeratio) {
-            case "vitesse":
-                if (upgrade.idcible == 0) {
-                    world.products.forEach(product => {
-                        product.vitesse = product.vitesse/upgrade.ratio
-                    });
-                }else{
-                    world.products[upgrade.idcible-1].vitesse = world.products[upgrade.idcible-1].vitesse/upgrade.ratio
-                }
-                break;
-            case "gain":
-                if (upgrade.idcible == 0) {
-                    world.products.forEach(product => {
-                        product.revenu = product.revenu*upgrade.ratio
-                    });
-                }else{
-                    world.products[upgrade.idcible-1].revenu = world.products[upgrade.idcible-1].revenu*upgrade.ratio
-                }
-                break;
-            default:
-                break;
+            console.log("Revenu du produit " + p.name + " : " + p.revenu)
         }
 
-        upgrade.unlocked= true
+        // Mise à jour de l'affichage de l'argent + appel de la mutation "achatProduit" + prise en compte des unlocks
+        // Appel : à chaque achat de n = qt produit(s)
+        function onProductBuy(qt:number, product: Product) {
 
-        setMessageSnackBar(upgrade.name + " ! ==> "+ upgrade.typeratio + " x" + upgrade.ratio)
-        setOpen(true)
-    }
+            let facture = devis(product,qt) // (Fonction utilitaire qui calcul, à partir de la quantité souhaité, le prix d'achat de n produit)
+            
+            product.quantite = product.quantite + qt
+            product.cout = product.cout*Math.pow(product.croissance, qt)
 
-    async function onResetWorld() {
-        // APPELER LA MUTATION
-        const { data } = await resetWorld({ variables: { name: username } })
-        loadworld = data.resetWorld
-        
-        setWorld(JSON.parse(JSON.stringify(data.resetWorld)) as World);
-    }
+            // ============ MAJ MONEY & SCORE ============
+            world.money = world.money - facture
+            setMoney(money - facture) // (afin de mettre à jour l'affichage dynamiquement)
+            // ============ MAJ MONEY & SCORE ============
 
-    function switchQtMulti() {
-        switch (qtmulti) {
-            case "x1":
-                setQtMulti("x10")
-                break;
-            case "x10":
-                setQtMulti("x100")
-                break;
-            case "x100":
-                setQtMulti("Max")
-                break;
-            case "Max":
-                setQtMulti("x1")
-                break;
-            default:
-                setQtMulti("x1")
-                break;
+            // Mutation : Appel au back
+            achatProduit({ variables: { acheterQtProduitId: product.id, quantite: qt } })
+
+            // Vérification si un palier a été atteint - Unlock de produit
+            world.products.forEach(product => {
+                product.paliers.forEach(palier =>{
+                    if (palier.seuil <= product.quantite && palier.unlocked != true ) {
+                        palier.unlocked = true
+                        switch (palier.typeratio) {
+                            case "vitesse":
+                                Math.round(product.vitesse = product.vitesse/palier.ratio)
+                                break;
+                            case "gain":
+                                Math.round(product.revenu = product.revenu*palier.ratio)
+                                break;
+                            default:
+                                break;
+                        }
+                        // Affichage du Snack Bar avec message adapté
+                        setMessageSnackBar(palier.name + " ! ==> "+ palier.typeratio + " x" + palier.ratio)
+                        setOpen(true)
+                    }
+                });
+            });
+
+            // Vérification si un palier a été atteint - All Unlock
+            world.allunlocks.forEach(unlock => {
+                if (unlock.seuil <= product.quantite && !unlock.unlocked) {
+                    let allGood = true
+                    world.products.forEach(p => {
+                        if (unlock.seuil > p.quantite) {
+                            allGood = false
+                            return
+                        }
+                    })
+
+                    if (allGood) {
+                        unlock.unlocked = true
+                        world.products.forEach(product => {
+                            switch (unlock.typeratio) {
+                                case "vitesse":
+                                    product.vitesse = Math.round(product.vitesse/unlock.ratio)
+                                    break;
+                                case "gain":
+                                    product.revenu = Math.round(product.revenu*unlock.ratio)
+                                    break;
+                                default:
+                                    break;
+                            }
+                        })
+                        // Affichage du Snack Bar avec message adapté
+                        setMessageSnackBar(unlock.name + " ! ==> "+ unlock.typeratio + " x" + unlock.ratio)
+                        setOpen(true)
+                    }
+                }
+
+            });
+
         }
-    }
+
+        // Mise à jour de l'affichage de l'argent + appel de la mutation "engagerManager"
+        // Appel : au clic du bouton d'embauche d'un manager
+        function onManagerHired(manager: Pallier) {
+
+            // ============ MAJ MONEY ============
+            world.money = world.money - manager.seuil
+            setMoney(money - manager.seuil)
+            // ============ MAJ MONEY ============
+            manager.unlocked= true
+            world.products[manager.idcible-1].managerUnlocked = true;
+
+            engagerManager({ variables: { name: manager.name } });
+
+            setMessageSnackBar(manager.name + " rejoins l'équipe !")
+            setOpen(true)
+            
+        }
+
+        // Mise à jour de l'affichage de l'argent + Appel de la fonction d'achat d'un upgrade "onUpgradeBought" + mutation "acheterCashUpgrade"
+        // Appel : à l'achat d'un upgrade de type cash
+        function onCashUpgradeBought(cashUpgrade:Pallier) {
+            
+            onUpgradeBought(cashUpgrade)
+
+            // ============ MAJ MONEY ============
+            world.money -= cashUpgrade.seuil
+            setMoney(money - cashUpgrade.seuil)
+            // ============ MAJ MONEY ============
+
+            acheterCashUpgrade({ variables: { name: cashUpgrade.name } });
+
+        }
+
+        // Mise à jour de l'affichage des anges + Appel de la fonction d'achat d'un upgrade "onUpgradeBought" + mutation "acheterAngelUpgrade"
+        // Appel : à l'achat d'un upgrade de type angel
+        function onAngelUpgradeBought(angelUpgrade:Pallier) {
+            onUpgradeBought(angelUpgrade)
+
+            world.activeangels -= angelUpgrade.seuil
+
+            acheterAngelUpgrade({ variables: { name: angelUpgrade.name } });
+        }
+
+        // Fonction qui mutualise le fonctionnement de l'achat d'upgrade de type cash ou angel
+        // Appel : Par les fonctions onCashUpgradeBought et onAngelUpgradeBought
+        function onUpgradeBought(upgrade:Pallier) {
+
+
+            switch (upgrade.typeratio) {
+                case "vitesse":
+                    if (upgrade.idcible == 0) {
+                        world.products.forEach(product => {
+                            product.vitesse = product.vitesse/upgrade.ratio
+                        });
+                    }else{
+                        world.products[upgrade.idcible-1].vitesse = world.products[upgrade.idcible-1].vitesse/upgrade.ratio
+                    }
+                    break;
+                case "gain":
+                    if (upgrade.idcible == 0) {
+                        world.products.forEach(product => {
+                            product.revenu = product.revenu*upgrade.ratio
+                        });
+                    }else{
+                        world.products[upgrade.idcible-1].revenu = world.products[upgrade.idcible-1].revenu*upgrade.ratio
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            upgrade.unlocked= true
+
+            setMessageSnackBar(upgrade.name + " ! ==> "+ upgrade.typeratio + " x" + upgrade.ratio)
+            setOpen(true)
+        }
+
+        // Fonction asychrone qui appelle la mutation "resetWorld" puis met à jour le monde à partir des données de retour de la mutation
+        // Appel : au clic du bouton de réinitialisation du monde
+        async function onResetWorld() {
+            // APPELER LA MUTATION
+            const { data } = await resetWorld({ variables: { name: username } })
+            loadworld = data.resetWorld
+            
+            setWorld(JSON.parse(JSON.stringify(data.resetWorld)) as World);
+        }
+
+
+    // ------ /FONCTIONS D'EVENEMENT ---------------------------------------
+
 
     return (
         <div className="main">
@@ -560,14 +591,6 @@ export default function Main({ loadworld, username } : MainProps) {
                     {world.products.map(product => (
                         <ProductComponent key={"product"+product.id} product={product} onProductBuy={onProductBuy} onProductionDone={onProductionDone} qtmulti={qtmulti} worldmoney={world.money} username={username} />
                     ))}
-
-
-                    {/* <ProductComponent product={world.products[0]} onProductBuy={onProductBuy} onProductionDone={onProductionDone} qtmulti={qtmulti} worldmoney={world.money} username={username} />
-                    <ProductComponent product={world.products[1]} onProductBuy={onProductBuy} onProductionDone={onProductionDone} qtmulti={qtmulti} worldmoney={world.money} username={username} />
-                    <ProductComponent product={world.products[2]} onProductBuy={onProductBuy} onProductionDone={onProductionDone} qtmulti={qtmulti} worldmoney={world.money} username={username} />
-                    <ProductComponent product={world.products[3]} onProductBuy={onProductBuy} onProductionDone={onProductionDone} qtmulti={qtmulti} worldmoney={world.money} username={username} />
-                    <ProductComponent product={world.products[4]} onProductBuy={onProductBuy} onProductionDone={onProductionDone} qtmulti={qtmulti} worldmoney={world.money} username={username} />
-                    <ProductComponent product={world.products[5]} onProductBuy={onProductBuy} onProductionDone={onProductionDone} qtmulti={qtmulti} worldmoney={world.money} username={username} /> */}
 
                 </div>
             </div>
